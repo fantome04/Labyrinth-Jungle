@@ -6,6 +6,7 @@
 class Labyrinth
 {
 public:
+
 	Labyrinth();
 
 	void print();
