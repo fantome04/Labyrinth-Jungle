@@ -1,6 +1,6 @@
 #include "coordinate.h"
 
-void Coordinate::move(char dir)
+void Coordinate::change(char dir)
 {
 	if (dir == 'U')
 		first -= 1;
@@ -11,6 +11,7 @@ void Coordinate::move(char dir)
 	else if (dir == 'R')
 		second += 1;
 }
+
 
 
 bool operator==(const Coordinate& lhs, const Coordinate& rhs)
