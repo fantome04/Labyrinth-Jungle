@@ -11,3 +11,14 @@ void Coordinate::move(char dir)
 	else if (dir == 'R')
 		second += 1;
 }
+
+
+bool operator==(const Coordinate& lhs, const Coordinate& rhs)
+{
+	return lhs.first == rhs.first && lhs.second == rhs.second;
+}
+
+bool operator!=(const Coordinate& lhs, const Coordinate& rhs)
+{
+	return !(lhs == rhs);
+}

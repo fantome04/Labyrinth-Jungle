@@ -12,4 +12,8 @@ public:
 
 };
 
+bool operator==(const Coordinate& first, const Coordinate& second);
+bool operator!=(const Coordinate& first, const Coordinate& second);
+
+
 #endif
