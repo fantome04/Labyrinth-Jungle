@@ -5,7 +5,7 @@ struct Coordinate
 {
 public:
 
-	void move(char dir); 
+	void change(char dir); 
 
 	int first;
 	int second;
