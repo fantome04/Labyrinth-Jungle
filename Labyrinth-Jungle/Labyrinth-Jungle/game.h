@@ -1,11 +1,31 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "labyrinth.h"
+#include "coordinate.h"
+
+enum class GameMode
+{
+	TREEOCALYPSE,
+	WTTJ
+};
+
 class Game
 {
 public:
 
+	void play();
+	void prologue(); //start menu
+	void epilogue(); //game over screen
+	void treeocalypse_game_loop();
+	void wttj_game_loop();
+	void treeocalypse_update();
+
 private:
+
+	bool game_over_;
+	GameMode mode_;
+	Labyrinth maze_;
 
 };
 
