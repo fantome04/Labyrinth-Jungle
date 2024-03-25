@@ -10,26 +10,6 @@ HumanPlayer::HumanPlayer(const Coordinate& coord)
 
 void HumanPlayer::move(char dir) //TODO change to Direction class
 {
-	/*char press = ' ';
-	if (_kbhit())
-		press = _getch();
-	switch (press)
-	{
-	case 'w':
-		my_coord_.change('U');
-		break;
-	case 'd':
-		my_coord_.change('R');
-		break;
-	case 's':
-		my_coord_.change('D');
-		break;
-	case 'a':
-		my_coord_.change('L');
-		break;
-	default:
-		break;
-	}*/
 
 	if (dir == 'U')
 	{

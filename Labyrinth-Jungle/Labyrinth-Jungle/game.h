@@ -15,13 +15,14 @@ class Game
 public:
 
 	void play();
+
+private:
+
 	void prologue(); //start menu
 	void epilogue(); //game over screen
 	void treeocalypse_game_loop();
 	void wttj_game_loop();
 	void treeocalypse_update();
-
-private:
 
 	bool game_over_;
 	GameMode mode_;
