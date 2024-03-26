@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="coordinate.h" />
+    <ClInclude Include="delete.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="humanplayer.h" />
     <ClInclude Include="labyrinth.h" />
