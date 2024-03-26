@@ -1,8 +1,7 @@
 #include "labyrinth.h"
 
 Labyrinth::Labyrinth()
-	:board_(board_size_
-	,std::vector<char>(board_size_, TREE))
+	:board_(board_size_, std::vector<char>(board_size_, TREE))
 	,player_({10,10})
 {
 	Coordinate start = { 1, 1 };
