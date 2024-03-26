@@ -23,6 +23,7 @@ private:
 	void treeocalypse_game_loop();
 	void wttj_game_loop();
 	void treeocalypse_update();
+	char read_input();
 
 	bool game_over_;
 	GameMode mode_;

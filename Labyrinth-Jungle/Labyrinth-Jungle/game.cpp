@@ -30,26 +30,31 @@ void Game::wttj_game_loop()
 
 void Game::treeocalypse_update()
 {
+	Coordinate prev = maze_.get_player_coordinates();
+	maze_.move_player(read_input());
+	maze_.update(prev);
+
+}
+
+char Game::read_input()
+{
 	char press = ' ';
 	if (_kbhit())
 		press = _getch();
 	switch (press)
 	{
 	case 'w':
-		//maze_.move_player('U');
-		break;
+		return 'U';
 	case 'd':
-		//maze_.move_player('R');
-		break;
+		return 'R';
 	case 's':
-		//maze_.move_player('D');
-		break;
+		return 'D';
 	case 'a':
-		//maze_.move_player('L');
-		break;
+		return 'L';
 	default:
-		break;
+		return ' ';
 	}
+
 }
 
 void Game::prologue()
