@@ -1,7 +1,11 @@
 #ifndef LABYRINTH_H
 #define LABYRINTH_H
 
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
 #include <vector>
+#include "coordinate.h"
 
 class Labyrinth
 {
@@ -12,14 +16,20 @@ public:
 	void print();
 
 private:
+	
+	void dfs(std::vector<std::vector<char>>& board_, const Coordinate& start);
+	int count_visited_neighbours(const std::vector<std::vector<char>>& board_, const Coordinate& start);
+	void shuffle(std::vector<int>& visit_order);
+	void generate_exits();
+	void compare_exits();
 
-	void get_path(std::vector<std::pair<int, int>>& path, const std::pair<int, int> start, const std::pair<int, int> end);
-	void dfs(std::vector<std::vector<char>>& board_copy, std::vector<char>& visited, const std::pair<int, int> start, const std::pair<int, int> end, char prev);
+	const char TREE = '#';
+	const char PATH = '.';
 
 	const int board_size_ = 20;
 	std::vector<std::vector<char>> board_;
 	int number_of_exits_;
-	std::vector<std::pair<int, int>> exits_;
+	std::vector<Coordinate> exits_;
 };
 
 #endif
