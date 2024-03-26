@@ -1,8 +1,11 @@
 #include <iostream>
-#include "delete.h"
+#include "Labyrinth.h"
 
 int main()
 {
-	abc();
+	Labyrinth lab;
+	lab.print();
+
+
 	return 0;
 }
