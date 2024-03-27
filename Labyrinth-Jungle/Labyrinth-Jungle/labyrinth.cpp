@@ -2,6 +2,7 @@
 
 Labyrinth::Labyrinth()
 	:board_(board_size_, std::vector<char>(board_size_, TREE))
+	,player_({10,10})
 {
 	Coordinate start = { 1, 1 };
 	dfs(board_, start);
@@ -111,7 +112,7 @@ void Labyrinth::generate_exits()
 		board_[exits_[i].first][exits_[i].second] = PATH;
 	}
 
-	board_[10][10] = 'O';
+	board_[player_.get_coord().first][player_.get_coord().second] = 'O';
 }
 
 void Labyrinth::compare_exits()
@@ -133,6 +134,24 @@ void Labyrinth::compare_exits()
 			--number_of_exits_;
 		}
 	}
+}
+
+void Labyrinth::update(const Coordinate& prev)
+{
+	board_[prev.first][prev.second] = '.';
+	board_[player_.get_coord().first][player_.get_coord().second] = player_.get_symbol();
+}
+
+Coordinate Labyrinth::get_player_coordinates() const
+{
+	return player_.get_coord();
+}
+
+bool Labyrinth::move_player(char dir)
+{
+	//TODO check wall collision
+	player_.move(dir);
+	return true;
 }
 
 void Labyrinth::print()

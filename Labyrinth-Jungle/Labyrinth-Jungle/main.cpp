@@ -1,11 +1,10 @@
 #include <iostream>
-#include "Labyrinth.h"
+#include "game.h"
 
 int main()
 {
-	Labyrinth lab;
-	lab.print();
-
+	Game game;
+	game.play();
 
 	return 0;
 }
