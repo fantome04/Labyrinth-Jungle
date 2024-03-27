@@ -8,6 +8,7 @@ Labyrinth::Labyrinth()
 	dfs(board_, start);
 
 	generate_exits();
+	starting_trees();
 }
 
 void Labyrinth::dfs(std::vector<std::vector<char>>& board_, const Coordinate& start)
@@ -132,6 +133,18 @@ void Labyrinth::compare_exits()
 		{
 			exits_.pop_back();
 			--number_of_exits_;
+		}
+	}
+}
+
+void Labyrinth::starting_trees()
+{
+	for (int i = 0; i < board_size_; ++i)
+	{
+		for (int j = 0; j < board_size_; ++j)
+		{
+			if (board_[i][j] == '#')
+				trees_.push_back(Tree({ i,j }, true));
 		}
 	}
 }
