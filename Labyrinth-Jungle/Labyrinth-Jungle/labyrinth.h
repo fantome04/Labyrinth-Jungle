@@ -12,7 +12,6 @@
 class Labyrinth
 {
 public:
-
 	Labyrinth();
 
 	//probably should be private, don't know hot to make private

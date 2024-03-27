@@ -164,5 +164,7 @@ void Labyrinth::print()
 		}
 		std::cout << std::endl;
 	}
+
 }
+
 

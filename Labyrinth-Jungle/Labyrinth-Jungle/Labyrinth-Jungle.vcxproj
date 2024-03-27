@@ -118,7 +118,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,7 +129,6 @@
   <ItemGroup>
     <ClCompile Include="coordinate.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="humanplayer.cpp" />
     <ClCompile Include="labyrinth.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
@@ -139,7 +137,6 @@
   <ItemGroup>
     <ClInclude Include="coordinate.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="humanplayer.h" />
     <ClInclude Include="labyrinth.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="tree.h" />
