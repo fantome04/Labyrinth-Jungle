@@ -149,10 +149,65 @@ void Labyrinth::starting_trees()
 	}
 }
 
-void Labyrinth::update(const Coordinate& prev)
+void Labyrinth::plant_trees()
 {
-	board_[prev.first][prev.second] = '.';
+	std::vector<Coordinate> free_spaces;
+	for (int i = 0; i < board_size_; ++i)
+	{
+		for (int j = 0; j < board_size_; ++j)
+		{
+			if (board_[i][j] == '.')
+				free_spaces.push_back({ i,j });
+		}
+	}
+
+	for (int i = 0; i < 3; ++i)
+	{
+		Tree tree{ free_spaces[rand() % free_spaces.size()], false };
+		while (!valid_tree(tree))
+		{
+			tree.set_coordinates(free_spaces[rand() % free_spaces.size()]);
+		}
+		trees_.push_back(tree);
+	}
+}
+
+bool Labyrinth::valid_tree(const Tree& tree)
+{
+	//TODO 
+	return true;
+}
+
+void Labyrinth::update_board()
+{
+	for (int i = 0; i < board_size_; ++i)
+	{
+		for (int j = 0; j < board_size_; ++j)
+		{
+			if (std::find(trees_.begin(), trees_.end(), Tree{ {i,j},false }) != trees_.end())
+			{
+				board_[i][j] == '#';
+			}
+			else
+			{
+				board_[i][j] == '.';
+			}
+
+		}
+	}
+	for (int i = 0; i < number_of_exits_; ++i)
+	{
+		board_[exits_[i].first][exits_[i].second] == '.';
+	}
 	board_[player_.get_coord().first][player_.get_coord().second] = player_.get_symbol();
+}
+
+void Labyrinth::update(bool moved)
+{
+	if (moved)
+		plant_trees();
+	update_board();
+	
 }
 
 Coordinate Labyrinth::get_player_coordinates() const

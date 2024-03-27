@@ -30,9 +30,9 @@ void Game::wttj_game_loop()
 
 void Game::treeocalypse_update()
 {
-	Coordinate prev = maze_.get_player_coordinates();
-	maze_.move_player(read_input());
-	maze_.update(prev);
+	//Coordinate prev = maze_.get_player_coordinates();
+	bool moved = maze_.move_player(read_input());
+	maze_.update(moved);
 
 }
 

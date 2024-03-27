@@ -22,7 +22,7 @@ private:
 	friend class Game;
 	
 	void print();
-	void update(const Coordinate& prev);
+	void update(bool moved);
 	Coordinate get_player_coordinates() const;
 	bool move_player(char dir);
 	void dfs(std::vector<std::vector<char>>& board_, const Coordinate& start);
@@ -30,7 +30,10 @@ private:
 	void shuffle(std::vector<int>& visit_order);
 	void generate_exits();
 	void compare_exits();
-	void starting_trees();
+	void starting_trees(); //delete later, keep code consistent
+	void plant_trees();
+	bool valid_tree(const Tree& tree);
+	void update_board();
 
 
 	const char TREE = '#';
