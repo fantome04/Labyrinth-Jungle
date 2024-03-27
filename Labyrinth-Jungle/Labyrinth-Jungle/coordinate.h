@@ -1,27 +1,24 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
-enum class Direction : char
-{
-	UP = 'U',
-	DOWN = 'D',
-	LEFT = 'L',
-	RIGHT = 'R'
-};
-
-struct Coordinate
+class Coordinate
 {
 public:
 
-	void change(char dir); 
+	Coordinate(int i, int j);
+	Coordinate(const Coordinate& other);
+	~Coordinate() = default;
 
-	int first;
-	int second;
+	int first() const;
+	int second() const;
+	void move(char dir); //might have a better way to implement
+						 //directions might be better handled with an enum class
+
+private:
+
+	int i_; //names are subject to change
+	int j_;
 
 };
-
-bool operator==(const Coordinate& first, const Coordinate& second);
-bool operator!=(const Coordinate& first, const Coordinate& second);
-
 
 #endif

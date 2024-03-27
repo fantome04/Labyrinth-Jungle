@@ -39,4 +39,3 @@ int Tree::get_seed_timer() const
 {
 	return seed_timer_;
 }
-
