@@ -13,6 +13,7 @@ enum class GameMode
 class Game
 {
 public:
+	Game();
 
 	void play();
 

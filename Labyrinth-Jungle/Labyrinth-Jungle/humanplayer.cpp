@@ -67,9 +67,9 @@ char HumanPlayer::get_symbol()
 	if (facing_ == Direction::UP)
 		return 'A';
 	if (facing_ == Direction::DOWN)
-		return 'A';
+		return 'V';
 	if (facing_ == Direction::RIGHT)
-		return 'A';
+		return '>';
 	if (facing_ == Direction::LEFT)
-		return 'A';
+		return '<';
 }

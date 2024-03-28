@@ -34,6 +34,7 @@ private:
 	void plant_trees();
 	bool valid_tree(const Tree& tree);
 	void update_board();
+	void update_trees();
 
 
 	const char TREE = '#';

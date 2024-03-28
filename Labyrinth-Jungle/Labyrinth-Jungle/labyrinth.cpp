@@ -169,6 +169,7 @@ void Labyrinth::plant_trees()
 			tree.set_coordinates(free_spaces[rand() % free_spaces.size()]);
 		}
 		trees_.push_back(tree);
+		free_spaces.erase(std::remove(free_spaces.begin(), free_spaces.end(), tree.get_coordinate()), free_spaces.end());
 	}
 }
 
@@ -184,28 +185,39 @@ void Labyrinth::update_board()
 	{
 		for (int j = 0; j < board_size_; ++j)
 		{
-			if (std::find(trees_.begin(), trees_.end(), Tree{ {i,j},false }) != trees_.end())
-			{
-				board_[i][j] == '#';
-			}
-			else
-			{
-				board_[i][j] == '.';
-			}
-
+			board_[i][j] = '.';
 		}
+	}
+	for (auto x : trees_)
+	{
+		if(x.is_grown())
+			board_[x.get_coordinate().first][x.get_coordinate().second] = '#';
+		else
+			board_[x.get_coordinate().first][x.get_coordinate().second] = x.get_seed_timer() + '0';
 	}
 	for (int i = 0; i < number_of_exits_; ++i)
 	{
-		board_[exits_[i].first][exits_[i].second] == '.';
+		board_[exits_[i].first][exits_[i].second] = '.';
 	}
 	board_[player_.get_coord().first][player_.get_coord().second] = player_.get_symbol();
+}
+
+void Labyrinth::update_trees()
+{
+	for (auto& x : trees_)
+	{
+		if(!x.is_grown())
+			x.update_tree();
+	}
 }
 
 void Labyrinth::update(bool moved)
 {
 	if (moved)
+	{
+		update_trees();
 		plant_trees();
+	}
 	update_board();
 	
 }
@@ -218,8 +230,9 @@ Coordinate Labyrinth::get_player_coordinates() const
 bool Labyrinth::move_player(char dir)
 {
 	//TODO check wall collision
-	player_.move(dir);
-	return true;
+	if(player_.move(dir))
+		return true;
+	return false;
 }
 
 void Labyrinth::print()

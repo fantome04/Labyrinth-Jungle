@@ -4,6 +4,14 @@
 #include <conio.h>
 #include <Windows.h>
 
+Game::Game()
+	:game_over_(false)
+	,mode_(GameMode::TREEOCALYPSE)
+	,maze_()
+{
+	
+}
+
 void Game::play()
 {
 	if (mode_ == GameMode::TREEOCALYPSE)
