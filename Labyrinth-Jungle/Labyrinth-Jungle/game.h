@@ -27,6 +27,7 @@ private:
 	char read_input();
 
 	bool game_over_;
+	bool win;
 	GameMode mode_;
 	Labyrinth maze_;
 

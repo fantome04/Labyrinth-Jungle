@@ -6,6 +6,7 @@
 
 Game::Game()
 	:game_over_(false)
+	,win(false)
 	,mode_(GameMode::TREEOCALYPSE)
 	,maze_()
 {
@@ -18,17 +19,26 @@ void Game::play()
 		treeocalypse_game_loop();
 	else
 		wttj_game_loop();
+
+	epilogue();
 }
 
 
 void Game::treeocalypse_game_loop()
 {
+	//maze_.print();
 	while (!game_over_)
 	{
 		maze_.print();
 		treeocalypse_update();
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
-		Sleep(75);
+		
+		Sleep(150);
+		if (!maze_.path_open())
+		{
+			game_over_ = true;
+			//system("cls");
+		}
 	}
 }
 
@@ -79,4 +89,6 @@ void Game::prologue()
 
 void Game::epilogue()
 {
+	system("cls");
+	std::cout << "Game Over" << std::endl;
 }

@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <cstdlib>
 #include <vector>
+#include <queue>
 #include "coordinate.h"
 #include "humanplayer.h"
 #include "tree.h"
@@ -24,6 +25,7 @@ private:
 	void print();
 	void update(bool moved);
 	Coordinate get_player_coordinates() const;
+	bool path_open() const;
 	bool move_player(char dir);
 	void dfs(std::vector<std::vector<char>>& board_, const Coordinate& start);
 	int count_visited_neighbours(const std::vector<std::vector<char>>& board_, const Coordinate& start);
@@ -32,9 +34,12 @@ private:
 	void compare_exits();
 	void starting_trees(); //delete later, keep code consistent
 	void plant_trees();
-	bool valid_tree(const Tree& tree);
+	bool valid_tree(const Tree& tree, const std::vector<Coordinate>& path);
+	bool is_tree(const Coordinate& coord);
+	bool is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path);
 	void update_board();
 	void update_trees();
+	bool get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit);
 
 
 	const char TREE = '#';
@@ -46,7 +51,8 @@ private:
 	std::vector<Coordinate> exits_;
 	HumanPlayer player_;
 	std::vector<Tree> trees_;
-	//Player* player_; //2 class lini mardkanc hamar, pointer-ov pahac lini, kaxvac mode-ic chisht tesaki playery new arvi
+	bool path_open_;
+	
 };
 
 #endif
