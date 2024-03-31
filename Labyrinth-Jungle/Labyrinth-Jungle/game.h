@@ -13,6 +13,7 @@ enum class GameMode
 class Game
 {
 public:
+	Game();
 
 	void play();
 
@@ -26,6 +27,7 @@ private:
 	char read_input();
 
 	bool game_over_;
+	bool win;
 	GameMode mode_;
 	Labyrinth maze_;
 
