@@ -32,6 +32,7 @@ private:
 	void shuffle(std::vector<int>& visit_order);
 	void generate_exits();
 	void compare_exits();
+	void generate_player();
 	void starting_trees(); //delete later, keep code consistent
 	void plant_trees();
 	bool valid_tree(const Tree& tree, const std::vector<Coordinate>& path);

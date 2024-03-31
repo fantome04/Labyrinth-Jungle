@@ -2,13 +2,14 @@
 
 Labyrinth::Labyrinth()
 	:board_(board_size_, std::vector<char>(board_size_, TREE))
-	, player_({ 10,10 })
+	, player_({ 10, 10 })
 	, path_open_(true)
 {
-	Coordinate start = {1, 1};
+	Coordinate start = {rand() % 18 + 1, rand() % 18 + 1 };
 	dfs(board_, start);
 
 	generate_exits();
+	generate_player();
 	starting_trees();
 }
 
@@ -113,8 +114,6 @@ void Labyrinth::generate_exits()
 	for (int i = 0; i < number_of_exits_; ++i) {
 		board_[exits_[i].first][exits_[i].second] = PATH;
 	}
-
-	board_[player_.get_coord().first][player_.get_coord().second] = 'O';
 }
 
 void Labyrinth::compare_exits()
@@ -138,6 +137,30 @@ void Labyrinth::compare_exits()
 	}
 }
 
+void Labyrinth::generate_player()
+{
+	Coordinate coord = get_player_coordinates();
+
+	if (board_[coord.first][coord.second] == '#')
+	{
+		std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+
+		for (int i = 0; i < directions.size(); ++i)
+		{
+			int new_row = coord.first + directions[i].first;
+			int new_column = coord.second + directions[i].second;
+
+			if (new_row >= 1 && new_column >= 1 && new_row < board_size_ - 1 && new_column < board_size_ - 1)
+			{
+				if (board_[new_row][new_column] != '#')
+				{
+					player_.set_coord({ new_row, new_column });
+				}
+			}
+		}
+	}
+}
+
 void Labyrinth::starting_trees()
 {
 	for (int i = 0; i < board_size_; ++i)
@@ -145,7 +168,7 @@ void Labyrinth::starting_trees()
 		for (int j = 0; j < board_size_; ++j)
 		{
 			if (board_[i][j] == '#')
-				trees_.push_back(Tree({ i,j }, true));
+				trees_.push_back(Tree({ i, j }, true));
 		}
 	}
 }
@@ -214,10 +237,6 @@ void Labyrinth::plant_trees()
 
 bool Labyrinth::valid_tree(const Tree& tree, const std::vector<Coordinate>& path)
 {
-	//TODO 
-	//a tree is valid if
-	//1. it is not on the path
-	//2. if it is on the path, the timer is more than the players distance to that tree  
 	
 	for (auto x : path)
 	{
@@ -401,9 +420,18 @@ bool Labyrinth::path_open() const
 
 bool Labyrinth::move_player(char dir)
 {
-	//TODO check wall collision
-	if(player_.move(dir))
-		return true;
+	//TODO
+	//move before
+
+	Coordinate before = get_player_coordinates();
+	if (player_.move(dir)) {
+		Coordinate coord = get_player_coordinates();
+		if (board_[coord.first][coord.second] != '#')
+			return true;
+	}
+
+
+	player_.set_coord(before);
 	return false;
 }
 
