@@ -57,22 +57,10 @@ void Game::treeocalypse_update()
 char Game::read_input()
 {
 	char press = ' ';
-	if (_kbhit())
+	if (_kbhit()) {
 		press = _getch();
-	switch (press)
-	{
-	case 'w':
-		return 'U';
-	case 'd':
-		return 'R';
-	case 's':
-		return 'D';
-	case 'a':
-		return 'L';
-	default:
-		return ' ';
 	}
-
+	return press;
 }
 
 void Game::prologue()
