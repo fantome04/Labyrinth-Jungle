@@ -41,6 +41,7 @@ private:
 	void update_board();
 	void update_trees();
 	bool get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit);
+	bool player_on_exit() const;
 
 
 	const char TREE = '#';
@@ -53,6 +54,7 @@ private:
 	HumanPlayer player_;
 	std::vector<Tree> trees_;
 	bool path_open_;
+	bool player_on_exit_;
 	
 };
 

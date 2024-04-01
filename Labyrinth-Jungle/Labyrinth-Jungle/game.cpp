@@ -20,7 +20,11 @@ void Game::play()
 	else
 		wttj_game_loop();
 
-	epilogue();
+	if (win)
+		epilogue_win();
+	else
+		epilogue_lose();
+
 }
 
 
@@ -32,11 +36,16 @@ void Game::treeocalypse_game_loop()
 		maze_.print();
 		treeocalypse_update();
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
-		
 		Sleep(150);
+		if (maze_.player_on_exit())
+		{
+			game_over_ = true;
+			win = true;
+		}
 		if (!maze_.path_open())
 		{
 			game_over_ = true;
+			win = false;
 			//system("cls");
 		}
 	}
@@ -75,7 +84,13 @@ void Game::prologue()
 		mode_ = GameMode::WTTJ;
 }
 
-void Game::epilogue()
+void Game::epilogue_win()
+{
+	system("cls");
+	std::cout << "You won" << std::endl;
+}
+
+void Game::epilogue_lose()
 {
 	system("cls");
 	std::cout << "Game Over" << std::endl;

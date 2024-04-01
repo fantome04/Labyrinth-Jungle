@@ -20,7 +20,8 @@ public:
 private:
 
 	void prologue(); //start menu
-	void epilogue(); //game over screen
+	void epilogue_win(); //game over screen
+	void epilogue_lose(); //game over screen
 	void treeocalypse_game_loop();
 	void wttj_game_loop();
 	void treeocalypse_update();

@@ -2,8 +2,9 @@
 
 Labyrinth::Labyrinth()
 	:board_(board_size_, std::vector<char>(board_size_, TREE))
-	, player_({ 10, 10 })
-	, path_open_(true)
+	,player_({ 10, 10 })
+	,path_open_(true)
+	,player_on_exit_(false)
 {
 	Coordinate start = {rand() % 18 + 1, rand() % 18 + 1 };
 	dfs(board_, start);
@@ -397,6 +398,11 @@ bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vect
 	return false;
 }
 
+bool Labyrinth::player_on_exit() const
+{
+	return player_on_exit_;
+}
+
 void Labyrinth::update(bool moved)
 {
 	if (moved)
@@ -405,6 +411,14 @@ void Labyrinth::update(bool moved)
 		plant_trees();
 	}
 	update_board();
+	for (int i = 0; i < number_of_exits_; ++i)
+	{
+		if (player_.get_coord() == exits_[i])
+		{
+			player_on_exit_ = true;
+			break;
+		}
+	}
 	
 }
 
