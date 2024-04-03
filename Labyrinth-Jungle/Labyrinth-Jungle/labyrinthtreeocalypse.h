@@ -8,19 +8,18 @@ class LabyrinthTreeocalypse : public Labyrinth
 public:
 
 	LabyrinthTreeocalypse();
-
-	//probably should be private, don't know hot to make private
+	~LabyrinthTreeocalypse() = default;
 
 	virtual void print();
-	virtual  void update(bool moved);
-	virtual  Coordinate get_player_coordinates() const;
-	virtual  bool path_open() const;
-	virtual  bool move_player(char dir);
+	virtual void update(bool moved);
+	virtual Coordinate get_player_coordinates() const;
+	virtual bool path_open() const;
+	virtual bool move_player(char dir);
 
 	virtual void generate_labyrinth() override;
 
 
-	virtual void plant_trees();
+	virtual void plant_trees() override;
 
 	virtual bool valid_tree(const Tree& tree, const std::vector<Coordinate>& path);
 	virtual bool is_tree(const Coordinate& coord);

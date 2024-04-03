@@ -8,23 +8,29 @@ Game::Game()
 	:game_over_(false)
 	,win(false)
 	,mode_(GameMode::TREEOCALYPSE)
-	,maze_()
 {
-	
+	if (mode_ == GameMode::TREEOCALYPSE)
+	{
+		maze_ = new LabyrinthTreeocalypse();
+	}
+	else
+	{
+		maze_ = new LabyrinthJungle();
+	}
 }
 
 void Game::play()
 {
-	if (mode_ == GameMode::TREEOCALYPSE)
-		treeocalypse_game_loop();
-	else
-		wttj_game_loop();
-
+	treeocalypse_game_loop();
 	if (win)
 		epilogue_win();
 	else
 		epilogue_lose();
+}
 
+Game::~Game()
+{
+	delete maze_;
 }
 
 
@@ -33,16 +39,16 @@ void Game::treeocalypse_game_loop()
 	//maze_.print();
 	while (!game_over_)
 	{
-		maze_.print();
+		maze_->print();
 		treeocalypse_update();
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
 		Sleep(150);
-		if (maze_.player_on_exit())
+		if (maze_->player_on_exit())
 		{
 			game_over_ = true;
 			win = true;
 		}
-		if (!maze_.path_open())
+		if (!maze_->path_open())
 		{
 			game_over_ = true;
 			win = false;
@@ -58,8 +64,8 @@ void Game::wttj_game_loop()
 void Game::treeocalypse_update()
 {
 	//Coordinate prev = maze_.get_player_coordinates();
-	bool moved = maze_.move_player(read_input());
-	maze_.update(moved);
+	bool moved = maze_->move_player(read_input());
+	maze_->update(moved);
 
 }
 

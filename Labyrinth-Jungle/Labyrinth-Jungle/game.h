@@ -4,6 +4,7 @@
 #include "labyrinth.h"
 #include "coordinate.h"
 #include "labyrinthtreeocalypse.h"
+#include "labyrinthjungle.h"
 
 enum class GameMode
 {
@@ -18,6 +19,8 @@ public:
 
 	void play();
 
+	~Game();
+
 private:
 
 	void prologue(); //start menu
@@ -31,7 +34,8 @@ private:
 	bool game_over_;
 	bool win;
 	GameMode mode_;
-	LabyrinthTreeocalypse maze_;
+	Labyrinth* maze_;
+	
 
 };
 

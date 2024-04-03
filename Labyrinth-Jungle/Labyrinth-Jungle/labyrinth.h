@@ -16,25 +16,16 @@ class Labyrinth
 public:
 
 	Labyrinth();
-
-	//probably should be private, don't know hot to make private
-
+	virtual ~Labyrinth() = default;
 	
 	virtual void print();
-	virtual  void update(bool moved);
-	virtual  Coordinate get_player_coordinates() const;
-	virtual  bool path_open() const;
-	virtual  bool move_player(char dir);
+	virtual void update(bool moved);
+	virtual Coordinate get_player_coordinates() const;
+	virtual bool path_open() const;
+	virtual bool move_player(char dir);
 	
 	virtual void generate_labyrinth() = 0;
 
-	/*void dfs(std::vector<std::vector<char>>& board_, const Coordinate& start);
-	int count_visited_neighbours(const std::vector<std::vector<char>>& board_, const Coordinate& start);
-	void shuffle(std::vector<int>& visit_order);
-	void generate_exits();
-	void compare_exits();
-	void generate_player();
-	void starting_trees(); */
 
 	virtual void plant_trees() = 0;
 	
