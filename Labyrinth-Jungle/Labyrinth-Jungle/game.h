@@ -3,6 +3,7 @@
 
 #include "labyrinth.h"
 #include "coordinate.h"
+#include "labyrinthtreeocalypse.h"
 
 enum class GameMode
 {
@@ -30,7 +31,7 @@ private:
 	bool game_over_;
 	bool win;
 	GameMode mode_;
-	Labyrinth maze_;
+	LabyrinthTreeocalypse maze_;
 
 };
 

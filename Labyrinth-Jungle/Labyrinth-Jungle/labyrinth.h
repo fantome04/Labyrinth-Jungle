@@ -10,7 +10,7 @@
 #include "humanplayer.h"
 #include "tree.h"
 //#include "game.h"
-class Game;
+
 class Labyrinth
 {
 public:
@@ -19,30 +19,34 @@ public:
 
 	//probably should be private, don't know hot to make private
 
-private:
-	friend class Game;
 	
-	void print();
-	void update(bool moved);
-	Coordinate get_player_coordinates() const;
-	bool path_open() const;
-	bool move_player(char dir);
-	void dfs(std::vector<std::vector<char>>& board_, const Coordinate& start);
+	virtual void print();
+	virtual  void update(bool moved);
+	virtual  Coordinate get_player_coordinates() const;
+	virtual  bool path_open() const;
+	virtual  bool move_player(char dir);
+	
+	virtual void generate_labyrinth() = 0;
+
+	/*void dfs(std::vector<std::vector<char>>& board_, const Coordinate& start);
 	int count_visited_neighbours(const std::vector<std::vector<char>>& board_, const Coordinate& start);
 	void shuffle(std::vector<int>& visit_order);
 	void generate_exits();
 	void compare_exits();
 	void generate_player();
-	void starting_trees(); //delete later, keep code consistent
-	void plant_trees();
-	bool valid_tree(const Tree& tree, const std::vector<Coordinate>& path);
-	bool is_tree(const Coordinate& coord);
-	bool is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path);
-	void update_board();
-	void update_trees();
-	bool get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit);
-	bool player_on_exit() const;
+	void starting_trees(); */
 
+	virtual void plant_trees() = 0;
+	
+	virtual bool valid_tree(const Tree& tree, const std::vector<Coordinate>& path);
+	virtual bool is_tree(const Coordinate& coord);
+	virtual bool is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path);
+	virtual void update_board();
+	virtual void update_trees();
+	virtual bool get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit); //bfs
+	virtual bool player_on_exit() const;
+
+protected:
 
 	const char TREE = '#';
 	const char PATH = '.';

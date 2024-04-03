@@ -1,174 +1,171 @@
-#include "labyrinth.h"
+#include "labyrinthtreeocalypse.h"
 
-Labyrinth::Labyrinth()
-	:board_(board_size_, std::vector<char>(board_size_, TREE))
-	,player_({ 10, 10 })
-	,path_open_(true)
-	,player_on_exit_(false)
+LabyrinthTreeocalypse::LabyrinthTreeocalypse()
 {
+	generate_labyrinth();
 }
 
-//void Labyrinth::dfs(std::vector<std::vector<char>>& board_, const Coordinate& start)
-//{
-//	if (count_visited_neighbours(board_, start) > 1)
-//	{
-//		return;
-//	}
-//
-//	board_[start.first][start.second] = PATH;
-//
-//	std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
-//	std::vector<int> visit_order = { 0, 1, 2, 3 };
-//
-//	shuffle(visit_order);
-//
-//	for (int i = 0; i < directions.size(); ++i)
-//	{
-//		int new_row = start.first + directions[visit_order[i]].first;
-//		int new_column = start.second + directions[visit_order[i]].second;
-//		
-//		if (new_row >= 1 && new_column >= 1 && new_row < board_size_ - 1 && new_column < board_size_ - 1)
-//		{
-//			if (board_[new_row][new_column] == TREE)
-//			{
-//				dfs(board_, { new_row, new_column });
-//			}
-//		}
-//	}
-//}
-//
-//int Labyrinth::count_visited_neighbours(const std::vector<std::vector<char>>& board_, const Coordinate& start)
-//{
-//	int count = 0;
-//	std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
-//
-//	for (int i = 0; i < directions.size(); ++i)
-//	{
-//		int new_row = start.first + directions[i].first;
-//		int new_column = start.second + directions[i].second;
-//
-//		if (new_row >= 1 && new_column >= 1 && new_row < board_size_ - 1 && new_column < board_size_ - 1)
-//		{
-//			if (board_[new_row][new_column] == PATH)
-//			{
-//				++count;
-//			}
-//		}
-//	}
-//
-//	return count;
-//}
-//
-//void Labyrinth::shuffle(std::vector<int>& visit_order) {
-//	int size = visit_order.size();
-//
-//	for (int i = 0; i < size; ++i)
-//	{
-//		std::swap(visit_order[i], visit_order[rand() % size]);
-//	}
-//}
-//
-//void Labyrinth::generate_exits()
-//{
-//	number_of_exits_ = rand() % 2 + 1;
-//	std::vector<int> loc{ 0, 0, 19, 19 };
-//	for (int i = 0; i < number_of_exits_; ++i)
-//	{
-//		int dir = rand() % 4;
-//		int coord = rand() % 18 + 1;
-//
-//		//  0
-//		//1   3
-//		//  2
-//
-//		if (dir % 2 == 0)
-//		{
-//			while ((loc[dir] == 0 && board_[1][coord] == TREE) || (loc[dir] == 19 && board_[18][coord] == TREE))
-//			{
-//				coord = rand() % 18 + 1;
-//			}
-//
-//			exits_.push_back({ loc[dir], coord });
-//		}
-//		else
-//		{
-//			while ((loc[dir] == 0 && board_[coord][1] == TREE) || (loc[dir] == 19 && board_[coord][18] == TREE))
-//			{
-//				coord = rand() % 18 + 1;
-//			}
-//
-//			exits_.push_back({ coord,  loc[dir] });
-//		}
-//	}
-//
-//	if (number_of_exits_ == 2)
-//	{
-//		compare_exits();
-//	}
-//
-//	for (int i = 0; i < number_of_exits_; ++i) {
-//		board_[exits_[i].first][exits_[i].second] = PATH;
-//	}
-//}
-//
-//void Labyrinth::compare_exits()
-//{
-//	if (exits_[0].first == exits_[1].first)
-//	{
-//		if ((exits_[0].second + 1 == exits_[1].second) || (exits_[0].second - 1 == exits_[1].second))
-//		{
-//			exits_.pop_back();
-//			--number_of_exits_;
-//		}
-//	}
-//
-//	else if (exits_[0].second == exits_[1].second)
-//	{
-//		if ((exits_[0].first + 1 == exits_[1].first) || (exits_[0].first - 1 == exits_[1].first))
-//		{
-//			exits_.pop_back();
-//			--number_of_exits_;
-//		}
-//	}
-//}
-//
-//void Labyrinth::generate_player()
-//{
-//	Coordinate coord = get_player_coordinates();
-//
-//	if (board_[coord.first][coord.second] == '#')
-//	{
-//		std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
-//
-//		for (int i = 0; i < directions.size(); ++i)
-//		{
-//			int new_row = coord.first + directions[i].first;
-//			int new_column = coord.second + directions[i].second;
-//
-//			if (new_row >= 1 && new_column >= 1 && new_row < board_size_ - 1 && new_column < board_size_ - 1)
-//			{
-//				if (board_[new_row][new_column] != '#')
-//				{
-//					player_.set_coord({ new_row, new_column });
-//				}
-//			}
-//		}
-//	}
-//}
-//
-//void Labyrinth::starting_trees()
-//{
-//	for (int i = 0; i < board_size_; ++i)
-//	{
-//		for (int j = 0; j < board_size_; ++j)
-//		{
-//			if (board_[i][j] == '#')
-//				trees_.push_back(Tree({ i, j }, true));
-//		}
-//	}
-//}
+void LabyrinthTreeocalypse::dfs(std::vector<std::vector<char>>& board_, const Coordinate& start)
+{
+	if (count_visited_neighbours(board_, start) > 1)
+	{
+		return;
+	}
 
-void Labyrinth::plant_trees()
+	board_[start.first][start.second] = PATH;
+
+	std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+	std::vector<int> visit_order = { 0, 1, 2, 3 };
+
+	shuffle(visit_order);
+
+	for (int i = 0; i < directions.size(); ++i)
+	{
+		int new_row = start.first + directions[visit_order[i]].first;
+		int new_column = start.second + directions[visit_order[i]].second;
+
+		if (new_row >= 1 && new_column >= 1 && new_row < board_size_ - 1 && new_column < board_size_ - 1)
+		{
+			if (board_[new_row][new_column] == TREE)
+			{
+				dfs(board_, { new_row, new_column });
+			}
+		}
+	}
+}
+
+int LabyrinthTreeocalypse::count_visited_neighbours(const std::vector<std::vector<char>>& board_, const Coordinate& start)
+{
+	int count = 0;
+	std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+
+	for (int i = 0; i < directions.size(); ++i)
+	{
+		int new_row = start.first + directions[i].first;
+		int new_column = start.second + directions[i].second;
+
+		if (new_row >= 1 && new_column >= 1 && new_row < board_size_ - 1 && new_column < board_size_ - 1)
+		{
+			if (board_[new_row][new_column] == PATH)
+			{
+				++count;
+			}
+		}
+	}
+
+	return count;
+}
+
+void LabyrinthTreeocalypse::shuffle(std::vector<int>& visit_order) {
+	int size = visit_order.size();
+
+	for (int i = 0; i < size; ++i)
+	{
+		std::swap(visit_order[i], visit_order[rand() % size]);
+	}
+}
+
+void LabyrinthTreeocalypse::generate_exits()
+{
+	number_of_exits_ = rand() % 2 + 1;
+	std::vector<int> loc{ 0, 0, 19, 19 };
+	for (int i = 0; i < number_of_exits_; ++i)
+	{
+		int dir = rand() % 4;
+		int coord = rand() % 18 + 1;
+
+		//  0
+		//1   3
+		//  2
+
+		if (dir % 2 == 0)
+		{
+			while ((loc[dir] == 0 && board_[1][coord] == TREE) || (loc[dir] == 19 && board_[18][coord] == TREE))
+			{
+				coord = rand() % 18 + 1;
+			}
+
+			exits_.push_back({ loc[dir], coord });
+		}
+		else
+		{
+			while ((loc[dir] == 0 && board_[coord][1] == TREE) || (loc[dir] == 19 && board_[coord][18] == TREE))
+			{
+				coord = rand() % 18 + 1;
+			}
+
+			exits_.push_back({ coord,  loc[dir] });
+		}
+	}
+
+	if (number_of_exits_ == 2)
+	{
+		compare_exits();
+	}
+
+	for (int i = 0; i < number_of_exits_; ++i) {
+		board_[exits_[i].first][exits_[i].second] = PATH;
+	}
+}
+
+void LabyrinthTreeocalypse::compare_exits()
+{
+	if (exits_[0].first == exits_[1].first)
+	{
+		if ((exits_[0].second + 1 == exits_[1].second) || (exits_[0].second - 1 == exits_[1].second))
+		{
+			exits_.pop_back();
+			--number_of_exits_;
+		}
+	}
+
+	else if (exits_[0].second == exits_[1].second)
+	{
+		if ((exits_[0].first + 1 == exits_[1].first) || (exits_[0].first - 1 == exits_[1].first))
+		{
+			exits_.pop_back();
+			--number_of_exits_;
+		}
+	}
+}
+
+void LabyrinthTreeocalypse::generate_player()
+{
+	Coordinate coord = get_player_coordinates();
+
+	if (board_[coord.first][coord.second] == '#')
+	{
+		std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+
+		for (int i = 0; i < directions.size(); ++i)
+		{
+			int new_row = coord.first + directions[i].first;
+			int new_column = coord.second + directions[i].second;
+
+			if (new_row >= 1 && new_column >= 1 && new_row < board_size_ - 1 && new_column < board_size_ - 1)
+			{
+				if (board_[new_row][new_column] != '#')
+				{
+					player_.set_coord({ new_row, new_column });
+				}
+			}
+		}
+	}
+}
+
+void LabyrinthTreeocalypse::starting_trees()
+{
+	for (int i = 0; i < board_size_; ++i)
+	{
+		for (int j = 0; j < board_size_; ++j)
+		{
+			if (board_[i][j] == '#')
+				trees_.push_back(Tree({ i, j }, true));
+		}
+	}
+}
+
+void LabyrinthTreeocalypse::plant_trees()
 {
 	std::vector<Coordinate> path_to_exits;
 	int count = 0;
@@ -205,8 +202,8 @@ void Labyrinth::plant_trees()
 			free_no_path.push_back(x);
 
 	}
-	
-	if(free_no_path.size() > 3)
+
+	if (free_no_path.size() > 3)
 	{
 		for (int i = 0; i < 3; ++i)
 		{
@@ -220,7 +217,7 @@ void Labyrinth::plant_trees()
 			all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), temp), all_free_spaces.end());
 		}
 	}
-	else if(free_no_path.size() == 3)
+	else if (free_no_path.size() == 3)
 	{
 		for (auto x : free_no_path)
 		{
@@ -230,9 +227,9 @@ void Labyrinth::plant_trees()
 	}
 }
 
-bool Labyrinth::valid_tree(const Tree& tree, const std::vector<Coordinate>& path)
+bool LabyrinthTreeocalypse::valid_tree(const Tree& tree, const std::vector<Coordinate>& path)
 {
-	
+
 	for (auto x : path)
 	{
 		if (x == tree.get_coordinate())
@@ -252,7 +249,7 @@ bool Labyrinth::valid_tree(const Tree& tree, const std::vector<Coordinate>& path
 	return true;
 }
 
-bool Labyrinth::is_tree(const Coordinate& coord)
+bool LabyrinthTreeocalypse::is_tree(const Coordinate& coord)
 {
 	for (const auto& x : trees_)
 	{
@@ -262,7 +259,7 @@ bool Labyrinth::is_tree(const Coordinate& coord)
 	return false;
 }
 
-bool Labyrinth::is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path)
+bool LabyrinthTreeocalypse::is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path)
 {
 	for (auto x : path)
 	{
@@ -272,7 +269,7 @@ bool Labyrinth::is_on_path(const Coordinate& coord, const std::vector<Coordinate
 	return false;
 }
 
-void Labyrinth::update_board()
+void LabyrinthTreeocalypse::update_board()
 {
 	for (int i = 0; i < board_size_; ++i)
 	{
@@ -283,7 +280,7 @@ void Labyrinth::update_board()
 	}
 	for (auto x : trees_)
 	{
-		if(x.is_grown())
+		if (x.is_grown())
 			board_[x.get_coordinate().first][x.get_coordinate().second] = '#';
 		else
 			board_[x.get_coordinate().first][x.get_coordinate().second] = x.get_seed_timer() + '0';
@@ -295,16 +292,16 @@ void Labyrinth::update_board()
 	board_[player_.get_coord().first][player_.get_coord().second] = player_.get_symbol();
 }
 
-void Labyrinth::update_trees()
+void LabyrinthTreeocalypse::update_trees()
 {
 	for (auto& x : trees_)
 	{
-		if(!x.is_grown())
+		if (!x.is_grown())
 			x.update_tree();
 	}
 }
 
-bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit) //bfs
+bool LabyrinthTreeocalypse::get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit) //bfs
 {
 	std::vector<std::vector<char>> board_copy(board_size_, std::vector<char>(board_size_, '.'));
 	for (auto x : trees_)
@@ -333,7 +330,7 @@ bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vect
 				b.first = i - 1;
 				b.second = j;
 			}
-			q.push({i - 1, j});
+			q.push({ i - 1, j });
 			board_copy[i - 1][j] = 'U';
 		}
 		if (i + 1 < board_copy.size() && (board_copy[i + 1][j] == '.' || board_copy[i + 1][j] == 'B'))
@@ -353,7 +350,7 @@ bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vect
 				b.first = i;
 				b.second = j - 1;
 			}
-			q.push({ i, j - 1});
+			q.push({ i, j - 1 });
 			board_copy[i][j - 1] = 'L';
 		}
 		if (j + 1 < board_copy[0].size() && (board_copy[i][j + 1] == '.' || board_copy[i][j + 1] == 'B'))
@@ -392,12 +389,12 @@ bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vect
 	return false;
 }
 
-bool Labyrinth::player_on_exit() const
+bool LabyrinthTreeocalypse::player_on_exit() const
 {
 	return player_on_exit_;
 }
 
-void Labyrinth::update(bool moved)
+void LabyrinthTreeocalypse::update(bool moved)
 {
 	if (moved)
 	{
@@ -413,20 +410,20 @@ void Labyrinth::update(bool moved)
 			break;
 		}
 	}
-	
+
 }
 
-Coordinate Labyrinth::get_player_coordinates() const
+Coordinate LabyrinthTreeocalypse::get_player_coordinates() const
 {
 	return player_.get_coord();
 }
 
-bool Labyrinth::path_open() const
+bool LabyrinthTreeocalypse::path_open() const
 {
 	return path_open_;
 }
 
-bool Labyrinth::move_player(char dir)
+bool LabyrinthTreeocalypse::move_player(char dir)
 {
 	//TODO
 	//move before
@@ -443,7 +440,17 @@ bool Labyrinth::move_player(char dir)
 	return false;
 }
 
-void Labyrinth::print()
+void LabyrinthTreeocalypse::generate_labyrinth()
+{
+	Coordinate start = { rand() % 18 + 1, rand() % 18 + 1 };
+	dfs(board_, start);
+
+	generate_exits();
+	generate_player();
+	starting_trees();
+}
+
+void LabyrinthTreeocalypse::print()
 {
 	for (auto x : board_)
 	{
