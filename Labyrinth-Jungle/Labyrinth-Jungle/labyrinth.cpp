@@ -2,74 +2,74 @@
 
 Labyrinth::Labyrinth()
 	:board_(board_size_, std::vector<char>(board_size_, TREE))
-	,player_({ 10, 10 })
 	,path_open_(true)
 	,player_on_exit_(false)
+	,number_of_exits_(0)
 {
 }
 
 
-void Labyrinth::plant_trees()
-{
-	std::vector<Coordinate> path_to_exits;
-	int count = 0;
-	for (int i = 0; i < number_of_exits_; ++i)
-	{
-		if (!get_path(player_.get_coord(), exits_[i], path_to_exits))
-			++count;
-		/*for (auto x : path_to_exits)
-		{
-			std::cout << x.first << " " << x.second << std::endl;
-		}*/
-	}
-
-	if (count == number_of_exits_)
-	{
-		path_open_ = false;
-		return;
-	}
-	std::vector<Coordinate> all_free_spaces;
-	for (int i = 1; i < board_size_ - 1; ++i)
-	{
-		for (int j = 1; j < board_size_ - 1; ++j)
-		{
-			Coordinate temp{ i,j };
-			if (!is_tree(temp))
-				all_free_spaces.push_back(temp);
-		}
-	}
-
-	std::vector<Coordinate> free_no_path;
-	for (auto x : all_free_spaces)
-	{
-		if (!is_on_path(x, path_to_exits))
-			free_no_path.push_back(x);
-
-	}
-	
-	if(free_no_path.size() > 3)
-	{
-		for (int i = 0; i < 3; ++i)
-		{
-			Tree tree{ all_free_spaces[rand() % all_free_spaces.size()], false };
-			while (!valid_tree(tree, path_to_exits))
-			{
-				tree.set_coordinates(all_free_spaces[rand() % all_free_spaces.size()]);
-			}
-			trees_.push_back(tree);
-			Coordinate temp = tree.get_coordinate();
-			all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), temp), all_free_spaces.end());
-		}
-	}
-	else if(free_no_path.size() == 3)
-	{
-		for (auto x : free_no_path)
-		{
-			Tree tree{ x, false };
-			trees_.push_back(tree);
-		}
-	}
-}
+//void Labyrinth::plant_trees()
+//{
+//	std::vector<Coordinate> path_to_exits;
+//	int count = 0;
+//	for (int i = 0; i < number_of_exits_; ++i)
+//	{
+//		if (!get_path(player_.get_coord(), exits_[i], path_to_exits))
+//			++count;
+//		/*for (auto x : path_to_exits)
+//		{
+//			std::cout << x.first << " " << x.second << std::endl;
+//		}*/
+//	}
+//
+//	if (count == number_of_exits_)
+//	{
+//		path_open_ = false;
+//		return;
+//	}
+//	std::vector<Coordinate> all_free_spaces;
+//	for (int i = 1; i < board_size_ - 1; ++i)
+//	{
+//		for (int j = 1; j < board_size_ - 1; ++j)
+//		{
+//			Coordinate temp{ i,j };
+//			if (!is_tree(temp))
+//				all_free_spaces.push_back(temp);
+//		}
+//	}
+//
+//	std::vector<Coordinate> free_no_path;
+//	for (auto x : all_free_spaces)
+//	{
+//		if (!is_on_path(x, path_to_exits))
+//			free_no_path.push_back(x);
+//
+//	}
+//	
+//	if(free_no_path.size() > 3)
+//	{
+//		for (int i = 0; i < 3; ++i)
+//		{
+//			Tree tree{ all_free_spaces[rand() % all_free_spaces.size()], false };
+//			while (!valid_tree(tree, path_to_exits))
+//			{
+//				tree.set_coordinates(all_free_spaces[rand() % all_free_spaces.size()]);
+//			}
+//			trees_.push_back(tree);
+//			Coordinate temp = tree.get_coordinate();
+//			all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), temp), all_free_spaces.end());
+//		}
+//	}
+//	else if(free_no_path.size() == 3)
+//	{
+//		for (auto x : free_no_path)
+//		{
+//			Tree tree{ x, false };
+//			trees_.push_back(tree);
+//		}
+//	}
+//}
 
 bool Labyrinth::valid_tree(const Tree& tree, const std::vector<Coordinate>& path)
 {
@@ -79,7 +79,7 @@ bool Labyrinth::valid_tree(const Tree& tree, const std::vector<Coordinate>& path
 		if (x == tree.get_coordinate())
 		{
 			std::vector<Coordinate> tmp;
-			auto temp = get_path(tree.get_coordinate(), player_.get_coord(), tmp);
+			auto temp = get_path(tree.get_coordinate(), player_coord_, tmp);
 			if (!temp)
 				std::cout << "wtf" << std::endl;
 			else
@@ -133,17 +133,17 @@ void Labyrinth::update_board()
 	{
 		board_[exits_[i].first][exits_[i].second] = '.';
 	}
-	board_[player_.get_coord().first][player_.get_coord().second] = player_.get_symbol();
+	board_[player_coord_.first][player_coord_.second] = 'O'; //TODO make actual player symb
 }
 
-void Labyrinth::update_trees()
-{
-	for (auto& x : trees_)
-	{
-		if(!x.is_grown())
-			x.update_tree();
-	}
-}
+//void Labyrinth::update_trees()
+//{
+//	for (auto& x : trees_)
+//	{
+//		if(!x.is_grown())
+//			x.update_tree();
+//	}
+//}
 
 bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit) //bfs
 {
@@ -233,13 +233,29 @@ bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vect
 	return false;
 }
 
-bool Labyrinth::player_on_exit() const
+//bool Labyrinth::player_on_exit() const
+//{
+//	return player_on_exit_;
+//}
+
+std::vector<std::vector<char>> Labyrinth::get_board() const
 {
-	return player_on_exit_;
+	return board_;
+}
+
+void Labyrinth::set_player_coord(const Coordinate& coord)
+{
+	player_coord_ = coord;
+}
+
+std::vector<Coordinate> Labyrinth::get_exits() const
+{
+	return exits_;
 }
 
 void Labyrinth::update(bool moved)
 {
+	//player_coord_ = coord;
 	if (moved)
 	{
 		update_trees();
@@ -248,7 +264,7 @@ void Labyrinth::update(bool moved)
 	update_board();
 	for (int i = 0; i < number_of_exits_; ++i)
 	{
-		if (player_.get_coord() == exits_[i])
+		if (player_coord_ == exits_[i])
 		{
 			player_on_exit_ = true;
 			break;
@@ -257,32 +273,32 @@ void Labyrinth::update(bool moved)
 	
 }
 
-Coordinate Labyrinth::get_player_coordinates() const
-{
-	return player_.get_coord();
-}
+//Coordinate Labyrinth::get_player_coordinates() const
+//{
+//	return player_.get_coord();
+//}
 
 bool Labyrinth::path_open() const
 {
 	return path_open_;
 }
 
-bool Labyrinth::move_player(char dir)
-{
-	//TODO
-	//move before
-
-	Coordinate before = get_player_coordinates();
-	if (player_.move(dir)) {
-		Coordinate coord = get_player_coordinates();
-		if (board_[coord.first][coord.second] != '#')
-			return true;
-	}
-
-
-	player_.set_coord(before);
-	return false;
-}
+//bool Labyrinth::move_player(char dir)
+//{
+//	//TODO
+//	//move before
+//
+//	Coordinate before = get_player_coordinates();
+//	if (player_.move(dir)) {
+//		Coordinate coord = get_player_coordinates();
+//		if (board_[coord.first][coord.second] != '#')
+//			return true;
+//	}
+//
+//
+//	player_.set_coord(before);
+//	return false;
+//}
 
 void Labyrinth::print()
 {

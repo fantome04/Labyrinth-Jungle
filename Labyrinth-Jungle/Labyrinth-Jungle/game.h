@@ -5,6 +5,7 @@
 #include "coordinate.h"
 #include "labyrinthtreeocalypse.h"
 #include "labyrinthjungle.h"
+#include "humanplayer.h"
 
 enum class GameMode
 {
@@ -31,10 +32,14 @@ private:
 	void treeocalypse_update();
 	char read_input();
 
+	void generate_player();
+	bool player_on_exit() const;
+
 	bool game_over_;
 	bool win;
 	GameMode mode_;
 	Labyrinth* maze_;
+	HumanPlayer human_;
 	
 
 };

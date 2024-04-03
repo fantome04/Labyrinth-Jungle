@@ -129,29 +129,29 @@ void LabyrinthTreeocalypse::compare_exits()
 	}
 }
 
-void LabyrinthTreeocalypse::generate_player()
-{
-	Coordinate coord = get_player_coordinates();
-
-	if (board_[coord.first][coord.second] == '#')
-	{
-		std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
-
-		for (int i = 0; i < directions.size(); ++i)
-		{
-			int new_row = coord.first + directions[i].first;
-			int new_column = coord.second + directions[i].second;
-
-			if (new_row >= 1 && new_column >= 1 && new_row < board_size_ - 1 && new_column < board_size_ - 1)
-			{
-				if (board_[new_row][new_column] != '#')
-				{
-					player_.set_coord({ new_row, new_column });
-				}
-			}
-		}
-	}
-}
+//void LabyrinthTreeocalypse::generate_player() //
+//{
+//	Coordinate coord = get_player_coordinates();
+//
+//	if (board_[coord.first][coord.second] == '#')
+//	{
+//		std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+//
+//		for (int i = 0; i < directions.size(); ++i)
+//		{
+//			int new_row = coord.first + directions[i].first;
+//			int new_column = coord.second + directions[i].second;
+//
+//			if (new_row >= 1 && new_column >= 1 && new_row < board_size_ - 1 && new_column < board_size_ - 1)
+//			{
+//				if (board_[new_row][new_column] != '#')
+//				{
+//					player_.set_coord({ new_row, new_column });
+//				}
+//			}
+//		}
+//	}
+//}
 
 void LabyrinthTreeocalypse::starting_trees()
 {
@@ -171,7 +171,7 @@ void LabyrinthTreeocalypse::plant_trees()
 	int count = 0;
 	for (int i = 0; i < number_of_exits_; ++i)
 	{
-		if (!get_path(player_.get_coord(), exits_[i], path_to_exits))
+		if (!get_path(player_coord_, exits_[i], path_to_exits))
 			++count;
 		/*for (auto x : path_to_exits)
 		{
@@ -226,71 +226,71 @@ void LabyrinthTreeocalypse::plant_trees()
 		}
 	}
 }
+//
+//bool LabyrinthTreeocalypse::valid_tree(const Tree& tree, const std::vector<Coordinate>& path)
+//{
+//
+//	for (auto x : path)
+//	{
+//		if (x == tree.get_coordinate())
+//		{
+//			std::vector<Coordinate> tmp;
+//			auto temp = get_path(tree.get_coordinate(), player_coord_, tmp);
+//			if (!temp)
+//				std::cout << "wtf" << std::endl;
+//			else
+//				if (tmp.size() < tree.get_seed_timer())
+//					return true;
+//				else
+//					return false;
+//		}
+//	}
+//
+//	return true;
+//}
+//
+//bool LabyrinthTreeocalypse::is_tree(const Coordinate& coord)
+//{
+//	for (const auto& x : trees_)
+//	{
+//		if (coord == x.get_coordinate())
+//			return true;
+//	}
+//	return false;
+//}
+//
+//bool LabyrinthTreeocalypse::is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path)
+//{
+//	for (auto x : path)
+//	{
+//		if (coord == x)
+//			return true;
+//	}
+//	return false;
+//}
 
-bool LabyrinthTreeocalypse::valid_tree(const Tree& tree, const std::vector<Coordinate>& path)
-{
-
-	for (auto x : path)
-	{
-		if (x == tree.get_coordinate())
-		{
-			std::vector<Coordinate> tmp;
-			auto temp = get_path(tree.get_coordinate(), player_.get_coord(), tmp);
-			if (!temp)
-				std::cout << "wtf" << std::endl;
-			else
-				if (tmp.size() < tree.get_seed_timer())
-					return true;
-				else
-					return false;
-		}
-	}
-
-	return true;
-}
-
-bool LabyrinthTreeocalypse::is_tree(const Coordinate& coord)
-{
-	for (const auto& x : trees_)
-	{
-		if (coord == x.get_coordinate())
-			return true;
-	}
-	return false;
-}
-
-bool LabyrinthTreeocalypse::is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path)
-{
-	for (auto x : path)
-	{
-		if (coord == x)
-			return true;
-	}
-	return false;
-}
-
-void LabyrinthTreeocalypse::update_board()
-{
-	for (int i = 0; i < board_size_; ++i)
-	{
-		for (int j = 0; j < board_size_; ++j)
-		{
-			board_[i][j] = '.';
-		}
-	}
-	for (auto x : trees_)
-	{
-		if (x.is_grown())
-			board_[x.get_coordinate().first][x.get_coordinate().second] = '#';
-		else
-			board_[x.get_coordinate().first][x.get_coordinate().second] = x.get_seed_timer() + '0';
-	}
-	for (int i = 0; i < number_of_exits_; ++i)
-	{
-		board_[exits_[i].first][exits_[i].second] = '.';
-	}
-	board_[player_.get_coord().first][player_.get_coord().second] = player_.get_symbol();
-}
+//void LabyrinthTreeocalypse::update_board()
+//{
+//	for (int i = 0; i < board_size_; ++i)
+//	{
+//		for (int j = 0; j < board_size_; ++j)
+//		{
+//			board_[i][j] = '.';
+//		}
+//	}
+//	for (auto x : trees_)
+//	{
+//		if (x.is_grown())
+//			board_[x.get_coordinate().first][x.get_coordinate().second] = '#';
+//		else
+//			board_[x.get_coordinate().first][x.get_coordinate().second] = x.get_seed_timer() + '0';
+//	}
+//	for (int i = 0; i < number_of_exits_; ++i)
+//	{
+//		board_[exits_[i].first][exits_[i].second] = '.';
+//	}
+//	board_[player_.get_coord().first][player_.get_coord().second] = player_.get_symbol();
+//}
 
 void LabyrinthTreeocalypse::update_trees()
 {
@@ -389,56 +389,52 @@ bool LabyrinthTreeocalypse::get_path(const Coordinate& from, const Coordinate& t
 	return false;
 }
 
-bool LabyrinthTreeocalypse::player_on_exit() const
-{
-	return player_on_exit_;
-}
+//bool LabyrinthTreeocalypse::player_on_exit() const
+//{
+//	return player_on_exit_;
+//}
 
-void LabyrinthTreeocalypse::update(bool moved)
-{
-	if (moved)
-	{
-		update_trees();
-		plant_trees();
-	}
-	update_board();
-	for (int i = 0; i < number_of_exits_; ++i)
-	{
-		if (player_.get_coord() == exits_[i])
-		{
-			player_on_exit_ = true;
-			break;
-		}
-	}
+//void LabyrinthTreeocalypse::update(bool moved)
+//{
+//	if (moved)
+//	{
+//		update_trees();
+//		plant_trees();
+//	}
+//	update_board();
+//	for (int i = 0; i < number_of_exits_; ++i)
+//	{
+//		if (player_.get_coord() == exits_[i])
+//		{
+//			player_on_exit_ = true;
+//			break;
+//		}
+//	}
+//
+//}
 
-}
-
-Coordinate LabyrinthTreeocalypse::get_player_coordinates() const
-{
-	return player_.get_coord();
-}
 
 bool LabyrinthTreeocalypse::path_open() const
 {
 	return path_open_;
 }
 
-bool LabyrinthTreeocalypse::move_player(char dir)
-{
-	//TODO
-	//move before
-
-	Coordinate before = get_player_coordinates();
-	if (player_.move(dir)) {
-		Coordinate coord = get_player_coordinates();
-		if (board_[coord.first][coord.second] != '#')
-			return true;
-	}
-
-
-	player_.set_coord(before);
-	return false;
-}
+//bool LabyrinthTreeocalypse::move_player(char dir)
+//{
+//	//TODO
+//	//move before
+//
+//	Coordinate before = get_player_coordinates();
+//	if (player_.move(dir)) {
+//		Coordinate coord = get_player_coordinates();
+//		if (board_[coord.first][coord.second] != '#')
+//			return true;
+//	}
+//
+//
+//	player_.set_coord(before);
+//	return false;
+//}
 
 void LabyrinthTreeocalypse::generate_labyrinth()
 {
@@ -446,7 +442,7 @@ void LabyrinthTreeocalypse::generate_labyrinth()
 	dfs(board_, start);
 
 	generate_exits();
-	generate_player();
+	//generate_player();
 	starting_trees();
 }
 

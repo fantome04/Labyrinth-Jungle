@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <cstdlib>
 #include <vector>
+#include <ranges>
 #include <queue>
 #include "coordinate.h"
 #include "humanplayer.h"
@@ -20,9 +21,9 @@ public:
 	
 	virtual void print();
 	virtual void update(bool moved);
-	virtual Coordinate get_player_coordinates() const;
+	//virtual Coordinate get_player_coordinates() const;
 	virtual bool path_open() const;
-	virtual bool move_player(char dir);
+	//virtual bool move_player(char dir);
 	
 	virtual void generate_labyrinth() = 0;
 
@@ -33,9 +34,12 @@ public:
 	virtual bool is_tree(const Coordinate& coord);
 	virtual bool is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path);
 	virtual void update_board();
-	virtual void update_trees();
+	virtual void update_trees() = 0;
 	virtual bool get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit); //bfs
-	virtual bool player_on_exit() const;
+	//virtual bool player_on_exit() const;
+	virtual std::vector<std::vector<char>> get_board() const;
+	virtual void set_player_coord(const Coordinate& coord);
+	virtual std::vector<Coordinate> get_exits() const;
 
 protected:
 
@@ -46,7 +50,8 @@ protected:
 	std::vector<std::vector<char>> board_;
 	int number_of_exits_;
 	std::vector<Coordinate> exits_;
-	HumanPlayer player_;
+	//HumanPlayer player_;
+	Coordinate player_coord_;
 	std::vector<Tree> trees_;
 	bool path_open_;
 	bool player_on_exit_;

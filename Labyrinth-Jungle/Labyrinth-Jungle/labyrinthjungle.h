@@ -10,7 +10,7 @@ public:
 	~LabyrinthJungle() = default;
 
 	virtual void generate_labyrinth() override;
-
+	virtual void update_trees() override;
 
 	virtual void plant_trees() override;
 
