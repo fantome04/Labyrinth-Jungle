@@ -39,7 +39,6 @@ Game::~Game()
 
 void Game::treeocalypse_game_loop()
 {
-	//maze_.print();
 	while (!game_over_)
 	{
 		maze_->print();
@@ -55,7 +54,6 @@ void Game::treeocalypse_game_loop()
 		{
 			game_over_ = true;
 			win = false;
-			//system("cls");
 		}
 	}
 }
@@ -66,7 +64,6 @@ void Game::wttj_game_loop()
 
 void Game::treeocalypse_update()
 {
-	//Coordinate prev = maze_.get_player_coordinates();
 	Coordinate before = human_.get_coord();
 
 	bool moved = false;
@@ -126,7 +123,7 @@ void Game::generate_player()
 bool Game::player_on_exit() const
 {
 	auto exits_ = maze_->get_exits();
-	for (auto x : exits_)
+	for (const auto& x : exits_)
 	{
 		if (human_.get_coord() == x)
 			return true;
