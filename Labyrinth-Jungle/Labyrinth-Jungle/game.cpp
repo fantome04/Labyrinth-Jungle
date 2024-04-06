@@ -26,9 +26,13 @@ void Game::play()
 {
 	treeocalypse_game_loop();
 	if (win)
+	{
 		epilogue_win();
+	}
 	else
+	{
 		epilogue_lose();
+	}
 }
 
 Game::~Game()
@@ -88,7 +92,8 @@ void Game::treeocalypse_update()
 char Game::read_input()
 {
 	char press = ' ';
-	if (_kbhit()) {
+	if (_kbhit()) 
+	{
 		press = _getch();
 	}
 	return press;
@@ -126,7 +131,9 @@ bool Game::player_on_exit() const
 	for (const auto& x : exits_)
 	{
 		if (human_.get_coord() == x)
+		{
 			return true;
+		}
 	}
 	return false;
 }
@@ -138,9 +145,13 @@ void Game::prologue()
 	int input;
 	std::cin >> input;
 	if (input == 1)
+	{
 		mode_ = GameMode::TREEOCALYPSE;
+	}
 	else if (input == 2)
+	{
 		mode_ = GameMode::WTTJ;
+	}
 }
 
 void Game::epilogue_win()

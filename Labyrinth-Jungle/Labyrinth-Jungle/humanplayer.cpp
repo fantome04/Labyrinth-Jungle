@@ -29,7 +29,8 @@ bool HumanPlayer::move(char dir) //TODO change to Direction class
 	{
 		my_coord_.change('L');
 	}
-	else {
+	else 
+	{
 		return false;
 	}
 

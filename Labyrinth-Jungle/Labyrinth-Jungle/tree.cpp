@@ -20,9 +20,13 @@ Tree::Tree(const Tree& other)
 void Tree::update_tree()
 {
 	if (seed_timer_ > 0)
+	{
 		--seed_timer_;
+	}
 	else
+	{
 		is_grown_ = true;
+	}
 }
 
 Coordinate Tree::get_coordinate() const

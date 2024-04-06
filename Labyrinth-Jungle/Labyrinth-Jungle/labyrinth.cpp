@@ -1,4 +1,5 @@
 #include "labyrinth.h"
+#include <Windows.h>
 
 Labyrinth::Labyrinth()
 	:board_(board_size_, std::vector<char>(board_size_, TREE))
@@ -13,9 +14,9 @@ Labyrinth::Labyrinth()
 
 void Labyrinth::print()
 {
-	for (auto x : board_)
+	for (const auto& x : board_)
 	{
-		for (auto y : x)
+		for (const auto& y : x)
 		{
 			std::cout << std::setw(2) << y;
 		}
@@ -115,13 +116,21 @@ bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vect
 			int j = cur.second;
 			path_to_exit.push_back(cur);
 			if (board_copy[i][j] == 'U')
+			{
 				cur.change('D');
+			}
 			else if (board_copy[i][j] == 'D')
+			{
 				cur.change('U');
+			}
 			else if (board_copy[i][j] == 'L')
+			{
 				cur.change('R');
+			}
 			else if (board_copy[i][j] == 'R')
+			{
 				cur.change('L');
+			}
 		}
 		return true;
 	}
@@ -156,9 +165,13 @@ void Labyrinth::update_board()
 	for (auto x : trees_)
 	{
 		if (x.is_grown())
+		{
 			board_[x.get_coordinate().first][x.get_coordinate().second] = '#';
+		}
 		else
+		{
 			board_[x.get_coordinate().first][x.get_coordinate().second] = x.get_seed_timer() + '0';
+		}
 	}
 	for (int i = 0; i < number_of_exits_; ++i)
 	{
@@ -182,12 +195,20 @@ bool Labyrinth::valid_tree(const Tree& tree, const std::vector<Coordinate>& path
 			std::vector<Coordinate> tmp;
 			auto temp = get_path(tree.get_coordinate(), player_coord_, tmp);
 			if (!temp)
+			{
 				std::cout << "wtf" << std::endl;
+			}
 			else
+			{
 				if (tmp.size() < tree.get_seed_timer())
+				{
 					return true;
+				}
 				else
+				{
 					return false;
+				}
+			}
 		}
 	}
 
@@ -199,17 +220,21 @@ bool Labyrinth::is_tree(const Coordinate& coord)
 	for (const auto& x : trees_)
 	{
 		if (coord == x.get_coordinate())
+		{
 			return true;
+		}
 	}
 	return false;
 }
 
 bool Labyrinth::is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path)
 {
-	for (auto x : path)
+	for (const auto& x : path)
 	{
 		if (coord == x)
+		{
 			return true;
+		}
 	}
 	return false;
 }

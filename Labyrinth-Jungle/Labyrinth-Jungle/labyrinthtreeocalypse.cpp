@@ -21,7 +21,9 @@ void LabyrinthTreeocalypse::plant_trees()
 	for (int i = 0; i < number_of_exits_; ++i)
 	{
 		if (!get_path(player_coord_, exits_[i], path_to_exits))
+		{
 			++count;
+		}
 	}
 
 	if (count == number_of_exits_)
@@ -36,12 +38,14 @@ void LabyrinthTreeocalypse::plant_trees()
 		{
 			Coordinate temp{ i,j };
 			if (!is_tree(temp))
+			{
 				all_free_spaces.push_back(temp);
+			}
 		}
 	}
 
 	std::vector<Coordinate> free_no_path;
-	for (auto x : all_free_spaces)
+	for (const auto& x : all_free_spaces)
 	{
 		if (!is_on_path(x, path_to_exits))
 			free_no_path.push_back(x);
@@ -180,7 +184,8 @@ void LabyrinthTreeocalypse::generate_exits()
 		compare_exits();
 	}
 
-	for (int i = 0; i < number_of_exits_; ++i) {
+	for (int i = 0; i < number_of_exits_; ++i)
+	{
 		board_[exits_[i].first][exits_[i].second] = PATH;
 	}
 }
@@ -213,7 +218,9 @@ void LabyrinthTreeocalypse::starting_trees()
 		for (int j = 0; j < board_size_; ++j)
 		{
 			if (board_[i][j] == '#')
+			{
 				trees_.push_back(Tree({ i, j }, true));
+			}
 		}
 	}
 }
