@@ -1,8 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "coordinate.h"
-
 class Player
 {
 public:
@@ -17,6 +15,7 @@ public:
 protected:
 
 	Coordinate my_coord_;
+
 	const char my_symbol_ = 'O';
 
 };
