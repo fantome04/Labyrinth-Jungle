@@ -1,6 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
 
+
 #include "coordinate.h"
 
 class Tree

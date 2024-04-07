@@ -49,7 +49,9 @@ bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vect
 	for (auto x : trees_)
 	{
 		if (x.is_grown())
+		{
 			board_copy[x.get_coordinate().first][x.get_coordinate().second] = '#';
+		}
 	}
 	board_copy[to.first][to.second] = 'B';
 	std::string path = "";

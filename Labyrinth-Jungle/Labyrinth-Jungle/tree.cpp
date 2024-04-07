@@ -8,7 +8,9 @@ Tree::Tree(const Coordinate& coord, bool is_grown)
 	,seed_timer_(0)
 {
 	if (!is_grown)
+	{
 		seed_timer_ = rand() % 10 + 1;
+	}
 }
 
 Tree::Tree(const Tree& other)

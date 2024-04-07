@@ -8,9 +8,6 @@ HumanPlayer::HumanPlayer(const Coordinate& coord)
 {
 }
 
-//TODO
-//Change move
-//get_sybmbol
 bool HumanPlayer::move(char dir) //TODO change to Direction class
 {
 	if (dir == 'w')
