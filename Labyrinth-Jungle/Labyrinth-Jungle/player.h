@@ -15,7 +15,6 @@ public:
 protected:
 
 	Coordinate my_coord_;
-
 	const char my_symbol_ = 'O';
 
 };

@@ -48,7 +48,9 @@ void LabyrinthTreeocalypse::plant_trees()
 	for (const auto& x : all_free_spaces)
 	{
 		if (!is_on_path(x, path_to_exits))
+		{
 			free_no_path.push_back(x);
+		}
 
 	}
 
@@ -81,7 +83,9 @@ void LabyrinthTreeocalypse::update_trees()
 	for (auto& x : trees_)
 	{
 		if (!x.is_grown())
+		{
 			x.update_tree();
+		}
 	}
 }
 
