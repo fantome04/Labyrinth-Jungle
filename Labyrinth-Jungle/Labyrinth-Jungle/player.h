@@ -17,7 +17,6 @@ public:
 protected:
 
 	Coordinate my_coord_;
-	Direction facing_;
 	const char my_symbol_ = 'O';
 
 };

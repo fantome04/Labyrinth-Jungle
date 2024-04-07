@@ -7,7 +7,9 @@ Tree::Tree(const Coordinate& coord, bool is_grown)
 	,seed_timer_(0)
 {
 	if (!is_grown)
+	{
 		seed_timer_ = rand() % 10 + 1;
+	}
 }
 
 Tree::Tree(const Tree& other)
@@ -20,9 +22,13 @@ Tree::Tree(const Tree& other)
 void Tree::update_tree()
 {
 	if (seed_timer_ > 0)
+	{
 		--seed_timer_;
+	}
 	else
+	{
 		is_grown_ = true;
+	}
 }
 
 Coordinate Tree::get_coordinate() const
