@@ -1,6 +1,5 @@
 #include "tree.h"
 #include "coordinate.h"
-#include <cstdlib>
 
 Tree::Tree(const Coordinate& coord, bool is_grown)
 	:location_(coord)

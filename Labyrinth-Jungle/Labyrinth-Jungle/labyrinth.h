@@ -15,6 +15,7 @@
 class Labyrinth
 {
 public:
+
 	Labyrinth();
 	virtual ~Labyrinth() = default;
 

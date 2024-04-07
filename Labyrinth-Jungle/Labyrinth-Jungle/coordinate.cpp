@@ -31,4 +31,3 @@ bool operator!=(const Coordinate& lhs, const Coordinate& rhs)
 {
 	return !(lhs == rhs);
 }
-
