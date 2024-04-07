@@ -36,6 +36,7 @@ public:
 	virtual std::vector<std::vector<char>> get_board() const; //returns a copy of the board
 	virtual std::vector<Coordinate> get_exits() const; //returns a copy of the vector of exit coordinates
 	virtual void set_player_coord(const Coordinate& coord); //tells the labyrinth where the player is
+	virtual void set_player_symbol(char symb);
 
 	virtual void update_board(); //update board
 	virtual bool path_open() const; //returns if the path to the exit from the players location is open
@@ -56,6 +57,7 @@ protected:
 	std::vector<Tree> trees_;
 
 	Coordinate player_coord_;
+	char player_symb_;
 
 	int number_of_exits_;
 

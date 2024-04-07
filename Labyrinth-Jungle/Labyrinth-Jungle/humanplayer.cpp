@@ -34,21 +34,13 @@ bool HumanPlayer::move(char dir) //TODO change to Direction class
 	return true;
 }
 
-char HumanPlayer::get_symbol() const
+char HumanPlayer::facing() const
 {
-	return my_symbol_;
+	return 0;
 }
 
-Coordinate HumanPlayer::get_coord() const
+bool HumanPlayer::cut()
 {
-	return my_coord_;
+	return false;
 }
 
-
-//TODO
-//set coord
-
-void HumanPlayer::set_coord(Coordinate coord)
-{
-	my_coord_ = coord;
-}
