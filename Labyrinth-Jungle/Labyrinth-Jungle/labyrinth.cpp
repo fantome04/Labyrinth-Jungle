@@ -238,3 +238,5 @@ bool Labyrinth::is_on_path(const Coordinate& coord, const std::vector<Coordinate
 	}
 	return false;
 }
+
+

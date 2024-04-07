@@ -3,12 +3,9 @@
 
 #include "coordinate.h"
 
-#include <cstdlib>
-
 class Tree
 {
 public:
-
 	Tree(const Coordinate& coord, bool is_grown = false);
 	Tree(const Tree& other);
 	~Tree() = default;
