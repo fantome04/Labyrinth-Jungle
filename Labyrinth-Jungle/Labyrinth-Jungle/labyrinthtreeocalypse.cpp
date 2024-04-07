@@ -45,10 +45,12 @@ void LabyrinthTreeocalypse::plant_trees()
 	}
 
 	std::vector<Coordinate> free_no_path;
-	for (const auto& x : all_free_spaces)
+	for (auto x : all_free_spaces)
 	{
 		if (!is_on_path(x, path_to_exits))
+		{
 			free_no_path.push_back(x);
+		}
 
 	}
 
@@ -81,7 +83,9 @@ void LabyrinthTreeocalypse::update_trees()
 	for (auto& x : trees_)
 	{
 		if (!x.is_grown())
+		{
 			x.update_tree();
+		}
 	}
 }
 
@@ -184,8 +188,7 @@ void LabyrinthTreeocalypse::generate_exits()
 		compare_exits();
 	}
 
-	for (int i = 0; i < number_of_exits_; ++i)
-	{
+	for (int i = 0; i < number_of_exits_; ++i) {
 		board_[exits_[i].first][exits_[i].second] = PATH;
 	}
 }

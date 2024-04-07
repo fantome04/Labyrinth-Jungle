@@ -10,17 +10,17 @@ public:
 	LabyrinthTreeocalypse();
 	~LabyrinthTreeocalypse() = default;
 
-	virtual void generate_labyrinth() override; //generates labyrinth using dfs
-	virtual void plant_trees() override; //plants 3 trees in random locations
-	virtual void update_trees() override; //calls the update method for all trees
+	virtual void generate_labyrinth() override;
+	virtual void plant_trees() override;
+	virtual void update_trees() override;
 
 private:
-	void dfs(std::vector<std::vector<char>>& board_, const Coordinate& start); //dfs labyrinth generation starting at 'start'
-	int count_visited_neighbours(const std::vector<std::vector<char>>& board_, const Coordinate& start); //helper functions
-	void shuffle(std::vector<int>& visit_order); //helper function
-	void generate_exits(); //generates exit location(s)
-	void compare_exits(); //checks if 2 exits can exist together
-	void starting_trees(); //fills the tree vector at the start of the game
+	void dfs(std::vector<std::vector<char>>& board_, const Coordinate& start);
+	int count_visited_neighbours(const std::vector<std::vector<char>>& board_, const Coordinate& start);
+	void shuffle(std::vector<int>& visit_order);
+	void generate_exits();
+	void compare_exits();
+	void starting_trees(); 
 };
 
 #endif // !TREEOCALYPSE_H

@@ -33,6 +33,9 @@
     <ClCompile Include="tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="humanplayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="coordinate.h">
@@ -50,14 +53,11 @@
     <ClInclude Include="tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="humanplayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="delete.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-=======
->>>>>>> parent of f2bac89 (Merge pull request #3 from fantome04/file-branch)
   </ItemGroup>
 </Project>
