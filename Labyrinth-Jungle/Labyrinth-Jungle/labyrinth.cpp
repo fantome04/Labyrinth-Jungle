@@ -1,5 +1,4 @@
 #include "labyrinth.h"
-#include <Windows.h>
 
 Labyrinth::Labyrinth()
 	:board_(board_size_, std::vector<char>(board_size_, TREE))
@@ -14,9 +13,9 @@ Labyrinth::Labyrinth()
 
 void Labyrinth::print()
 {
-	for (const auto& x : board_)
+	for (auto x : board_)
 	{
-		for (const auto& y : x)
+		for (auto y : x)
 		{
 			std::cout << std::setw(2) << y;
 		}
@@ -231,7 +230,7 @@ bool Labyrinth::is_tree(const Coordinate& coord)
 
 bool Labyrinth::is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path)
 {
-	for (const auto& x : path)
+	for (auto x : path)
 	{
 		if (coord == x)
 		{
@@ -240,5 +239,3 @@ bool Labyrinth::is_on_path(const Coordinate& coord, const std::vector<Coordinate
 	}
 	return false;
 }
-
-

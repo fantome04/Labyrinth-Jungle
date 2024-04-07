@@ -92,8 +92,7 @@ void Game::treeocalypse_update()
 char Game::read_input()
 {
 	char press = ' ';
-	if (_kbhit()) 
-	{
+	if (_kbhit()) {
 		press = _getch();
 	}
 	return press;
