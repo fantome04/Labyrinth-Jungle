@@ -3,6 +3,9 @@
 
 #include "labyrinth.h"
 #include "coordinate.h"
+#include "labyrinthtreeocalypse.h"
+#include "labyrinthjungle.h"
+#include "humanplayer.h"
 
 enum class GameMode
 {
@@ -17,19 +20,27 @@ public:
 
 	void play();
 
+	~Game();
+
 private:
 
 	void prologue(); //start menu
-	void epilogue(); //game over screen
+	void epilogue_win(); //game over screen
+	void epilogue_lose(); //game over screen
 	void treeocalypse_game_loop();
 	void wttj_game_loop();
 	void treeocalypse_update();
 	char read_input();
 
+	void generate_player();
+	bool player_on_exit() const;
+
 	bool game_over_;
 	bool win;
 	GameMode mode_;
-	Labyrinth maze_;
+	Labyrinth* maze_;
+	HumanPlayer human_;
+	
 
 };
 

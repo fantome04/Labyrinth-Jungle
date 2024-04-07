@@ -8,53 +8,39 @@ HumanPlayer::HumanPlayer(const Coordinate& coord)
 {
 }
 
+//TODO
+//Change move
+//get_sybmbol
 bool HumanPlayer::move(char dir) //TODO change to Direction class
 {
+	if (dir == 'w')
+	{
+		my_coord_.change('U');
+	}
+	else if (dir == 'd')
+	{
+		my_coord_.change('R');
+	}
+	else if (dir == 's')
+	{
+		my_coord_.change('D');
+	}
+	else if (dir == 'a')
+	{
+		my_coord_.change('L');
+	}
+	else 
+	{
+		return false;
+	}
 
-	if (dir == 'U')
-	{
-		if (facing_ == Direction::UP)
-		{
-			my_coord_.change('U');
-			return true;
-		}
-		facing_ = Direction::UP;
-		return false;
-	}
-	if (dir == 'R')
-	{
-		if (facing_ == Direction::RIGHT)
-		{
-			my_coord_.change('R');
-			return true;
-		}
-		facing_ = Direction::RIGHT;
-		return false;
-	}
-	if (dir == 'D')
-	{
-		if (facing_ == Direction::DOWN)
-		{
-			my_coord_.change('D');
-			return true;
-		}
-		facing_ = Direction::DOWN;
-		return false;
-	}
-	if (dir == 'L')
-	{
-		if (facing_ == Direction::LEFT)
-		{
-			my_coord_.change('L');
-			return true;
-		}
-		facing_ = Direction::LEFT;
-		return false;
-	}
-	return false;
+	return true;
 }
 
-
+char HumanPlayer::get_symbol() const
+{
+	return my_symbol_;
+}
 
 Coordinate HumanPlayer::get_coord() const
 {
@@ -62,14 +48,10 @@ Coordinate HumanPlayer::get_coord() const
 }
 
 
-char HumanPlayer::get_symbol()
+//TODO
+//set coord
+
+void HumanPlayer::set_coord(Coordinate coord)
 {
-	if (facing_ == Direction::UP)
-		return 'A';
-	if (facing_ == Direction::DOWN)
-		return 'V';
-	if (facing_ == Direction::RIGHT)
-		return '>';
-	if (facing_ == Direction::LEFT)
-		return '<';
+	my_coord_ = coord;
 }

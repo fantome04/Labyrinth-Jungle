@@ -3,16 +3,16 @@
 
 class Tree
 {
-private:
+public:
 	Tree(const Coordinate& coord, bool is_grown = false);
 	Tree(const Tree& other);
 	~Tree() = default;
 
-	void update_tree(); //update tree 4 each instance of the board
-	Coordinate get_coordinate() const;
-	bool is_grown() const;
-	int get_seed_timer() const;
-	void set_coordinates(const Coordinate& coord);
+	void update_tree(); //reduce timer by 1 if the player moved
+	Coordinate get_coordinate() const; // returns tree coordinates
+	bool is_grown() const; //returns if the tree is grown
+	int get_seed_timer() const; //returns in how many steps the tree will grow
+	void set_coordinates(const Coordinate& coord); //set tree coordinates
 
 private:
 

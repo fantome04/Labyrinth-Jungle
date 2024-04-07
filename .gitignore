@@ -46,10 +46,13 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+*.vcxproj
+*.filters
+
 # User-specific files
 *.rsuser
 *.suo
-# *.user
+*.user
 *.userosscache
 *.sln.docstates
 
