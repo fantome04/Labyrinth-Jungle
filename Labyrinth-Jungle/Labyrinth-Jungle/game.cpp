@@ -8,7 +8,7 @@
 
 Game::Game()
 	:game_over_(false)
-	,win(false)
+	,win_(false)
 	,mode_(GameMode::TREEOCALYPSE)
 {
 	prologue();
@@ -30,7 +30,7 @@ Game::Game()
 void Game::play()
 {
 	game_loop();
-	if (win)
+	if (win_)
 	{
 		epilogue_win();
 	}
@@ -65,12 +65,12 @@ void Game::game_loop()
 		if (player_on_exit())
 		{
 			game_over_ = true;
-			win = true;
+			win_ = true;
 		}
 		if (!maze_->path_open())
 		{
 			game_over_ = true;
-			win = false;
+			win_ = false;
 		}
 	}
 }
