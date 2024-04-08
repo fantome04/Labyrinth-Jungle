@@ -20,7 +20,7 @@ public:
 	virtual ~Labyrinth() = default;
 
 	virtual void print(); //print board
-	virtual void update(bool moved); //update everything
+	virtual void update(bool moved) = 0; //update everything
 
 	virtual void generate_labyrinth() = 0;
 	virtual void plant_trees() = 0;

@@ -14,6 +14,26 @@ void LabyrinthTreeocalypse::generate_labyrinth()
 	starting_trees();
 }
 
+void LabyrinthTreeocalypse::update(bool moved)
+{
+	if (moved)
+	{
+		update_trees();
+		plant_trees();
+	}
+
+	update_board();
+	for (int i = 0; i < number_of_exits_; ++i)
+	{
+		if (player_coord_ == exits_[i])
+		{
+			player_on_exit_ = true;
+			break;
+		}
+	}
+
+}
+
 void LabyrinthTreeocalypse::plant_trees()
 {
 	std::vector<Coordinate> path_to_exits;

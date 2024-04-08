@@ -37,7 +37,7 @@ private:
 	bool player_on_exit() const;
 
 	bool game_over_;
-	bool win;
+	bool win_;
 	GameMode mode_;
 	Labyrinth* maze_;
 	Player* human_;

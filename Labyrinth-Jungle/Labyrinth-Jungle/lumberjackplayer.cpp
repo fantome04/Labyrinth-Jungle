@@ -77,19 +77,17 @@ char LumberjackPlayer::facing() const
 }
 
 
-bool LumberjackPlayer::cut() 
+void LumberjackPlayer::cut() 
 {
-	if (cuts_left_ > 0)
-	{
-		//std::cout << cuts_left_ << std::endl;
-		--cuts_left_;
-		return true;
-	}
-	return false;
-	
+	--cuts_left_;
 }
 //
 //void LumberjackPlayer::stop_cutting()
 //{
 //	cutting_ = false;
 //}
+
+bool LumberjackPlayer::cuts_left()
+{
+	return cuts_left_;
+}

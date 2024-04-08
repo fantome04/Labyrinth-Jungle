@@ -14,8 +14,9 @@ public:
 	char facing() const;
 
 
-	bool cut();
+	void cut();
 	//void stop_cutting();
+	bool cuts_left();
 	
 private:
 
