@@ -22,7 +22,7 @@ public:
 	virtual void print(); //print board
 	virtual void update(bool moved) = 0; //update everything
 
-	virtual void generate_labyrinth() = 0;
+	virtual void generate_labyrinth();
 	virtual void plant_trees() = 0;
 	virtual void update_trees() = 0;
 
@@ -34,6 +34,7 @@ public:
 	virtual bool get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit);
 
 	virtual std::vector<std::vector<char>> get_board() const; //returns a copy of the board
+	virtual std::vector<Tree> get_trees() const; //returns a copy of the trees vector
 	virtual std::vector<Coordinate> get_exits() const; //returns a copy of the vector of exit coordinates
 	virtual void set_player_coord(const Coordinate& coord); //tells the labyrinth where the player is
 	virtual void set_player_symbol(char symb);
@@ -47,6 +48,13 @@ public:
 	
 
 protected:
+
+	void dfs(const Coordinate& start); //generate labyrinth with dfs
+	int count_visited_neighbours(const Coordinate& start); //helper function
+	void shuffle(std::vector<int>& visit_order); //helper function
+	void generate_exits(); //generates exit(s) on board
+	void compare_exits(); //compares exit locations with each other
+	void starting_trees(); //creates vector of trees at the start of the game
 
 	const char TREE = '#';
 	const char PATH = '.';
