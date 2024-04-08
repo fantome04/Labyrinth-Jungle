@@ -104,18 +104,40 @@ void Game::jungle_update()
 
 	bool moved = false;
 	char input = read_input();
-	if (input == 'r')
-	{
-		char facing = dynamic_cast<LumberjackPlayer*>(human_)->facing();
-		if (dynamic_cast<LabyrinthJungle*>(maze_)->cut_tree(before, facing))
+	
+	if(dynamic_cast<LumberjackPlayer*>(human_)->cuts_left()){
+		if (input == 'r')
 		{
-			if (!dynamic_cast<LumberjackPlayer*>(human_)->cut())
+			char facing = dynamic_cast<LumberjackPlayer*>(human_)->facing();
+			if (dynamic_cast<LabyrinthJungle*>(maze_)->cut_tree(before, facing))
 			{
-				dynamic_cast<LabyrinthJungle*>(maze_)->restore_tree(before, facing);
+				dynamic_cast<LumberjackPlayer*>(human_)->cut();
+
 			}
 		}
 	}
-	else if (human_->move(input))
+	else
+	{
+		if (!dynamic_cast<LabyrinthJungle*>(maze_)->bfs_called())
+		{
+			std::vector<Coordinate> temp;
+			std::vector<Coordinate> exits = maze_->get_exits();
+			for (int i = 0; i < exits.size(); ++i)
+			{
+				maze_->get_path(human_->get_coord(), exits[i], temp);
+			}
+
+			if (temp.empty())
+			{
+				game_over_ = true;
+				win_ = false;
+				return;
+			}
+		}
+	}
+
+	
+	if (human_->move(input))
 	{
 		Coordinate coord = human_->get_coord();
 		auto board_ = maze_->get_board();
@@ -149,24 +171,25 @@ void Game::generate_player()
 
 	auto board_ = maze_->get_board();
 
+	bool is_set = true;
+
 	if (board_[coord.first][coord.second] == '#')
 	{
-		std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+		is_set = false;
+		std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, 1}, {-1, -1}, {1, -1}, {1, 1} };
 
 		for (int i = 0; i < directions.size(); ++i)
 		{
 			int new_row = coord.first + directions[i].first;
 			int new_column = coord.second + directions[i].second;
 
-			if (new_row >= 1 && new_column >= 1 && new_row < board_.size() - 1 && new_column < board_.size() - 1)
+			if (board_[new_row][new_column] != '#')
 			{
-				if (board_[new_row][new_column] != '#')
-				{
-					human_->set_coord({ new_row, new_column });
-				}
+				human_->set_coord({ new_row, new_column });
 			}
 		}
 	}
+
 }
 
 bool Game::player_on_exit() const

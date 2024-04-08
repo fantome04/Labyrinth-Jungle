@@ -1,6 +1,7 @@
 #include "labyrinthjungle.h"
 
 LabyrinthJungle::LabyrinthJungle()
+	:bfs_called_(false)
 {
 	generate_labyrinth();
 }
@@ -11,16 +12,32 @@ void LabyrinthJungle::generate_labyrinth()
 	dfs(board_, start);
 
 	generate_exits();
+
+	plant_trees();
+
 	starting_trees();
+}
+
+void LabyrinthJungle::update(bool moved)
+{
+	update_board();
+	for (int i = 0; i < number_of_exits_; ++i)
+	{
+		if (player_coord_ == exits_[i])
+		{
+			player_on_exit_ = true;
+			break;
+		}
+	}
 }
 
 void LabyrinthJungle::plant_trees()
 {
-	std::vector<Coordinate> path_to_exits;
+	std::vector<std::vector<Coordinate>> path_to_exits(2);
 	int count = 0;
 	for (int i = 0; i < number_of_exits_; ++i)
 	{
-		if (!get_path(player_coord_, exits_[i], path_to_exits))
+		if (!get_path(player_coord_, exits_[i], path_to_exits[i]))
 		{
 			++count;
 		}
@@ -31,6 +48,7 @@ void LabyrinthJungle::plant_trees()
 		path_open_ = false;
 		return;
 	}
+
 	std::vector<Coordinate> all_free_spaces;
 	for (int i = 1; i < board_size_ - 1; ++i)
 	{
@@ -47,35 +65,31 @@ void LabyrinthJungle::plant_trees()
 	std::vector<Coordinate> free_no_path;
 	for (auto x : all_free_spaces)
 	{
-		if (!is_on_path(x, path_to_exits))
-		{
-			free_no_path.push_back(x);
-		}
-
-	}
-
-	if (free_no_path.size() > 3)
-	{
-		for (int i = 0; i < 3; ++i)
-		{
-			Tree tree{ all_free_spaces[rand() % all_free_spaces.size()], false };
-			while (!valid_tree(tree, path_to_exits))
+		for (int i = 0; i < number_of_exits_; ++i) {
+			if (!is_on_path(x, path_to_exits[i]))
 			{
-				tree.set_coordinates(all_free_spaces[rand() % all_free_spaces.size()]);
+				free_no_path.push_back(x);
 			}
-			trees_.push_back(tree);
-			Coordinate temp = tree.get_coordinate();
-			all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), temp), all_free_spaces.end());
 		}
 	}
-	else if (free_no_path.size() == 3)
+
+	for (int i = 0; i < 18; ++i)
 	{
-		for (auto x : free_no_path)
-		{
-			Tree tree{ x, false };
-			trees_.push_back(tree);
-		}
+		Tree tree{ free_no_path[rand() % free_no_path.size()], true };
+		trees_.push_back(tree);
+		Coordinate temp = tree.get_coordinate();
+		all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), temp), all_free_spaces.end());
+		free_no_path.erase(std::remove(free_no_path.begin(), free_no_path.end(), temp), free_no_path.end());
 	}
+
+	for (int i = 0; i < number_of_exits_; ++i) {
+		Tree tree{ path_to_exits[i][rand() % path_to_exits[i].size()], true};
+		trees_.push_back(tree);
+		Coordinate temp = tree.get_coordinate();
+		all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), temp), all_free_spaces.end());
+		path_to_exits[i].erase(std::remove(path_to_exits[i].begin(), path_to_exits[i].end(), temp), path_to_exits[i].end());
+	}
+
 }
 
 bool LabyrinthJungle::cut_tree(const Coordinate& coord, char dir)
@@ -86,7 +100,6 @@ bool LabyrinthJungle::cut_tree(const Coordinate& coord, char dir)
 	{
 		//Tree tree(to_cut);
 		board_[coord.first][coord.second] = '.';
-		std::cout << trees_.size() << std::endl;
 		std::vector<Tree> temp;
 		for (auto x : trees_)
 		{
@@ -97,25 +110,9 @@ bool LabyrinthJungle::cut_tree(const Coordinate& coord, char dir)
 		}
 		trees_ = temp;
 		//trees_.erase(std::remove(trees_.begin(), trees_.end(), tree), trees_.end());
-		for (auto x : trees_)
-		{
-			if (x.get_coordinate() == to_cut)
-			{
-				std::cout << "gay" << std::endl;
-			}
-		}
-		std::cout << trees_.size() << std::endl;
 		return true;
 	}
 	return false;
-}
-
-void LabyrinthJungle::restore_tree(const Coordinate& coord, char dir)
-{
-	Coordinate to_cut = coord;
-	to_cut.change(dir);
-	board_[to_cut.first][to_cut.second] = '#';
-	trees_.push_back({ to_cut, true });
 }
 
 void LabyrinthJungle::update_trees()
@@ -266,4 +263,14 @@ void LabyrinthJungle::starting_trees()
 			}
 		}
 	}
+}
+
+bool LabyrinthJungle::bfs_called()
+{
+	return bfs_called_;
+}
+
+void LabyrinthJungle::bfs_called_change()
+{
+	bfs_called_ = true;
 }

@@ -24,24 +24,7 @@ void Labyrinth::print()
 	}
 }
 
-void Labyrinth::update(bool moved)
-{
-	if (moved)
-	{
-		update_trees();
-		plant_trees();
-	}
-	update_board();
-	for (int i = 0; i < number_of_exits_; ++i)
-	{
-		if (player_coord_ == exits_[i])
-		{
-			player_on_exit_ = true;
-			break;
-		}
-	}
-	
-}
+
 
 bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit) //bfs
 {
