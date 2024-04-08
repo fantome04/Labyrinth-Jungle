@@ -134,6 +134,7 @@
     <ClCompile Include="labyrinth.cpp" />
     <ClCompile Include="labyrinthjungle.cpp" />
     <ClCompile Include="labyrinthtreeocalypse.cpp" />
+    <ClCompile Include="lumberjackplayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="tree.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="labyrinth.h" />
     <ClInclude Include="labyrinthjungle.h" />
     <ClInclude Include="labyrinthtreeocalypse.h" />
+    <ClInclude Include="lumberjackplayer.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="tree.h" />
   </ItemGroup>

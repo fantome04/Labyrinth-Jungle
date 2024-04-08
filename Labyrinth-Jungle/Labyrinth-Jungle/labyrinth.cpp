@@ -5,6 +5,7 @@ Labyrinth::Labyrinth()
 	,exits_()
 	,trees_()
 	,player_coord_()
+	,player_symb_('O')
 	,number_of_exits_(0)
 	,path_open_(true)
 	,player_on_exit_(false)
@@ -154,6 +155,11 @@ void Labyrinth::set_player_coord(const Coordinate& coord)
 	player_coord_ = coord;
 }
 
+void Labyrinth::set_player_symbol(char symb)
+{
+	player_symb_ = symb;
+}
+
 void Labyrinth::update_board()
 {
 	for (int i = 0; i < board_size_; ++i)
@@ -178,7 +184,7 @@ void Labyrinth::update_board()
 	{
 		board_[exits_[i].first][exits_[i].second] = '.';
 	}
-	board_[player_coord_.first][player_coord_.second] = 'O'; //TODO make actual player symb
+	board_[player_coord_.first][player_coord_.second] = player_symb_; //TODO make actual player symb
 }
 
 bool Labyrinth::path_open() const

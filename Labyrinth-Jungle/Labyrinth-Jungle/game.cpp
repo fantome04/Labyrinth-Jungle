@@ -1,4 +1,6 @@
 #include "game.h"
+#include "lumberjackplayer.h"
+#include "labyrinthjungle.h"
 
 #include <iostream>
 #include <conio.h>
@@ -8,23 +10,26 @@ Game::Game()
 	:game_over_(false)
 	,win(false)
 	,mode_(GameMode::TREEOCALYPSE)
-	,human_({10,10})
 {
+	prologue();
 	if (mode_ == GameMode::TREEOCALYPSE)
 	{
+		human_ = new HumanPlayer({ 10, 10 });
 		maze_ = new LabyrinthTreeocalypse();
 	}
 	else
 	{
+		human_ = new LumberjackPlayer({10,10});
 		maze_ = new LabyrinthJungle();
 	}
 	generate_player();
-	maze_->set_player_coord(human_.get_coord());
+	maze_->set_player_coord(human_->get_coord());
+	system("cls");
 }
 
 void Game::play()
 {
-	treeocalypse_game_loop();
+	game_loop();
 	if (win)
 	{
 		epilogue_win();
@@ -38,15 +43,23 @@ void Game::play()
 Game::~Game()
 {
 	delete maze_;
+	delete human_;
 }
 
 
-void Game::treeocalypse_game_loop()
+void Game::game_loop()
 {
 	while (!game_over_)
 	{
 		maze_->print();
-		treeocalypse_update();
+		if(mode_ == GameMode::TREEOCALYPSE)
+		{
+			treeocalypse_update();
+		}
+		else
+		{
+			jungle_update();
+		}
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
 		Sleep(150);
 		if (player_on_exit())
@@ -62,37 +75,69 @@ void Game::treeocalypse_game_loop()
 	}
 }
 
-void Game::wttj_game_loop()
-{
-}
-
 void Game::treeocalypse_update()
 {
-	Coordinate before = human_.get_coord();
+	Coordinate before = human_->get_coord();
 
 	bool moved = false;
-	if (human_.move(read_input()))
+	if (human_->move(read_input()))
 	{
-		Coordinate coord = human_.get_coord();
+		Coordinate coord = human_->get_coord();
 		auto board_ = maze_->get_board();
 		if (board_[coord.first][coord.second] != '#')
 		{
 			moved = true;
-			maze_->set_player_coord(human_.get_coord());
+			maze_->set_player_coord(human_->get_coord());
 		}
 	}
 	if (!moved)
 	{
-		human_.set_coord(before);
+		human_->set_coord(before);
 	}
 	maze_->update(moved);
 
 }
 
+void Game::jungle_update()
+{
+	Coordinate before = human_->get_coord();
+
+	bool moved = false;
+	char input = read_input();
+	if (input == 'r')
+	{
+		char facing = dynamic_cast<LumberjackPlayer*>(human_)->facing();
+		if (dynamic_cast<LabyrinthJungle*>(maze_)->cut_tree(before, facing))
+		{
+			if (!dynamic_cast<LumberjackPlayer*>(human_)->cut())
+			{
+				dynamic_cast<LabyrinthJungle*>(maze_)->restore_tree(before, facing);
+			}
+		}
+	}
+	else if (human_->move(input))
+	{
+		Coordinate coord = human_->get_coord();
+		auto board_ = maze_->get_board();
+		if (board_[coord.first][coord.second] != '#')
+		{
+			moved = true;
+			maze_->set_player_coord(human_->get_coord());
+		}
+	}
+	if (!moved)
+	{
+		human_->set_coord(before);
+	}
+	maze_->set_player_symbol(human_->get_symbol());
+	maze_->update(moved);
+}
+
 char Game::read_input()
 {
 	char press = ' ';
-	if (_kbhit()) {
+	if (_kbhit()) 
+	{
 		press = _getch();
 	}
 	return press;
@@ -100,7 +145,7 @@ char Game::read_input()
 
 void Game::generate_player()
 {
-	Coordinate coord = human_.get_coord();
+	Coordinate coord = human_->get_coord();
 
 	auto board_ = maze_->get_board();
 
@@ -117,7 +162,7 @@ void Game::generate_player()
 			{
 				if (board_[new_row][new_column] != '#')
 				{
-					human_.set_coord({ new_row, new_column });
+					human_->set_coord({ new_row, new_column });
 				}
 			}
 		}
@@ -129,7 +174,7 @@ bool Game::player_on_exit() const
 	auto exits_ = maze_->get_exits();
 	for (const auto& x : exits_)
 	{
-		if (human_.get_coord() == x)
+		if (human_->get_coord() == x)
 		{
 			return true;
 		}
@@ -149,7 +194,7 @@ void Game::prologue()
 	}
 	else if (input == 2)
 	{
-		mode_ = GameMode::WTTJ;
+		mode_ = GameMode::JUNGLE;
 	}
 }
 
