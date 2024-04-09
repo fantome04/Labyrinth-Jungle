@@ -58,9 +58,9 @@ protected:
 	void compare_exits(); //compares exit locations with each other
 	void starting_trees(); //creates vector of trees at the start of the game
 
-	const char TREE = '#';
-	const char PATH = '.';
-	const char SEED = '*';
+	const char TREE = 254;
+	const char PATH = ' ';
+	const char SEED = 248;
 	const int board_size_ = 20;
 
 	std::vector<std::vector<char>> board_;

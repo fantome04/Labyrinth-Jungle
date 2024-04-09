@@ -7,7 +7,7 @@ Labyrinth::Labyrinth()
 	,exits_()
 	,trees_()
 	,player_coord_()
-	,player_symb_('O')
+	,player_symb_('X')
 	,number_of_exits_(0)
 	,path_open_(true)
 	,player_on_exit_(false)
@@ -18,15 +18,17 @@ void Labyrinth::print()
 {
 	for (const auto& x : board_)
 	{
+		std::cout << "\t\t\t";
 		for (const auto& y : x)
 		{
-			if (y == TREE || y == '■')
+			if (y == TREE )
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
+				//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_GREEN | FOREGROUND_GREEN);
 			}
 			else if (y == SEED)
 			{
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
 			}
 			else if (y == PATH)
 			{
@@ -34,7 +36,7 @@ void Labyrinth::print()
 			}
 			else
 			{
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);;
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);;
 			}
 			std::cout << std::setw(2) << y;
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
@@ -248,6 +250,8 @@ bool Labyrinth::is_on_path(const Coordinate& coord, const std::vector<Coordinate
 
 void Labyrinth::dfs(const Coordinate& start)
 {
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
+	print();
 	if (count_visited_neighbours(start) > 1)
 	{
 		return;

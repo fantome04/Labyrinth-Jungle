@@ -14,7 +14,7 @@ public:
 
 
 	void cut();
-	bool cuts_left() const;
+	int cuts_left() const;
 	
 private:
 
