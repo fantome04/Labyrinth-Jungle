@@ -22,9 +22,11 @@ public:
 	void play();
 
 	~Game();
-	void clear();
-	void start();
+	
 private:
+
+	void start();
+	void clear();
 
 	void prologue(); //start menu
 	void epilogue_win(); //game over screen
@@ -32,7 +34,9 @@ private:
 	void game_loop();
 	void treeocalypse_update();
 	void jungle_update();
-	char read_input();
+	char read_input() const;
+
+	void controls() const;
 
 	void generate_player();
 	bool player_on_exit() const;

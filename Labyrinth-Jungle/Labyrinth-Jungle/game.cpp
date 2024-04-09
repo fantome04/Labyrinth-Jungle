@@ -12,14 +12,11 @@ Game::Game()
 	,mode_(GameMode::TREEOCALYPSE)
 {
 	start();
-
 }
-
-
 
 void Game::play()
 {
-	while (true)
+	while(true)
 	{
 		game_loop();
 		if (win_)
@@ -30,10 +27,11 @@ void Game::play()
 		{
 			epilogue_lose();
 		}
-		Sleep(3000);
+
 		system("cls");
-		std::cout << "press E to exit" << std::endl;
-		std::cout << "press R to restart" << std::endl;
+		std::cout << "\n\n\n\t\t\tpress E to exit\n" << std::endl;
+		std::cout << "\t\t\tpress R to restart\n" << std::endl;
+
 		while (true)
 		{
 			char input = read_input();
@@ -55,8 +53,16 @@ void Game::play()
 
 }
 
+
+Game::~Game()
+{
+	clear();
+}
+
 void Game::start()
 {
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+
 	prologue();
 	if (mode_ == GameMode::TREEOCALYPSE)
 	{
@@ -79,18 +85,91 @@ void Game::clear()
 	delete human_;
 }
 
-
-Game::~Game()
+void Game::prologue()
 {
-	clear();
+	system("cls");
+	std::cout << "\n\n\n";
+	std::cout << "\t\t##          ###    ########  ##    ## ########  #### ##    ## ######## ##     ##\n";
+	std::cout << "\t\t##         ## ##   ##     ##  ##  ##  ##     ##  ##  ###   ##    ##    ##     ##\n";
+	std::cout << "\t\t##        ##   ##  ##     ##   ####   ##     ##  ##  ####  ##    ##    ##     ##\n";
+	std::cout << "\t\t##       ##     ## ########     ##    ########   ##  ## ## ##    ##    #########\n";
+	std::cout << "\t\t##       ######### ##     ##    ##    ##   ##    ##  ##  ####    ##    ##     ##\n";
+	std::cout << "\t\t##       ##     ## ##     ##    ##    ##    ##   ##  ##   ###    ##    ##     ##\n";
+	std::cout << "\t\t######## ##     ## ########     ##    ##     ## #### ##    ##    ##    ##     ##\n";
+	Sleep(2000);
+	system("cls");
+	while (true)
+	{
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
+		std::cout << "\n\n\n";
+		std::cout << "\t\t\tChoose game mode\n\n\t\t\t1. Treeocalypse\n\t\t\t2. Welcome to the jungle\n\t\t\t3. Controls\n\t\t\t4. Quit game\n\t\t\t";
+	
+		char input = read_input();
+		if (input == '1')
+		{
+			mode_ = GameMode::TREEOCALYPSE;
+			break;
+		}
+		else if (input == '2')
+		{
+			mode_ = GameMode::JUNGLE;
+			break;
+		}
+		else if (input == '3')
+		{
+			controls();
+			system("cls");
+		}
+		else if (input == '4')
+		{
+			system("cls");
+			exit(0);
+		}
+	}
 }
 
+void Game::epilogue_win()
+{
+	system("cls");
+	std::cout << "\n\n\n";
+	std::cout << "\t\t##    ##  #######  ##     ##    ##      ##  #######  ##    ##\n";
+	std::cout << "\t\t ##  ##  ##     ## ##     ##    ##  ##  ## ##     ## ###   ##\n";
+	std::cout << "\t\t  ####   ##     ## ##     ##    ##  ##  ## ##     ## ####  ##\n";
+	std::cout << "\t\t   ##    ##     ## ##     ##    ##  ##  ## ##     ## ## ## ##\n";
+	std::cout << "\t\t   ##    ##     ## ##     ##    ##  ##  ## ##     ## ##  ####\n";
+	std::cout << "\t\t   ##    ##     ## ##     ##    ##  ##  ## ##     ## ##   ###\n";
+	std::cout << "\t\t   ##     #######   #######      ###  ###   #######  ##    ##\n";
+	Sleep(2500);
+	system("cls");
+
+}
+
+void Game::epilogue_lose()
+{
+	system("cls");
+	maze_->print();
+	std::cout << "\n\t\t\tThe Path to the exit is sealed off forever" << std::endl;
+	Sleep(2500);
+	system("cls");
+		
+	std::cout << "\n\n\n";
+	std::cout << "\t\t ######      ###    ##     ## ########     #######  ##     ## ######## ########\n";
+	std::cout << "\t\t##    ##    ## ##   ###   ### ##          ##     ## ##     ## ##       ##     ##\n";
+	std::cout << "\t\t##         ##   ##  #### #### ##          ##     ## ##     ## ##       ##     ##\n";
+	std::cout << "\t\t##   #### ##     ## ## ### ## ######      ##     ## ##     ## ######   ########\n";
+	std::cout << "\t\t##    ##  ######### ##     ## ##          ##     ##  ##   ##  ##       ##   ##\n";
+	std::cout << "\t\t##    ##  ##     ## ##     ## ##          ##     ##   ## ##   ##       ##    ##\n";
+	std::cout << "\t\t ######   ##     ## ##     ## ########     #######     ###    ######## ##     ##\n";
+	Sleep(2500);
+	system("cls");
+}
 
 void Game::game_loop()
 {
 	while (!game_over_)
 	{
 		maze_->print();
+		std::cout << "\n\n\t\t\tCuts left: " << dynamic_cast<LumberjackPlayer*>(human_)->cuts_left();
 		if(mode_ == GameMode::TREEOCALYPSE)
 		{
 			treeocalypse_update();
@@ -99,6 +178,7 @@ void Game::game_loop()
 		{
 			jungle_update();
 		}
+
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
 		Sleep(150);
 		if (player_on_exit())
@@ -123,7 +203,7 @@ void Game::treeocalypse_update()
 	{
 		Coordinate coord = human_->get_coord();
 		auto board_ = maze_->get_board();
-		if (board_[coord.first][coord.second] != '#')
+		if (board_[coord.first][coord.second] != maze_->get_tree_symb())
 		{
 			moved = true;
 			maze_->set_player_coord(human_->get_coord());
@@ -140,11 +220,10 @@ void Game::treeocalypse_update()
 void Game::jungle_update()
 {
 	Coordinate before = human_->get_coord();
-
-	bool moved = false;
 	char input = read_input();
 	
-	if(dynamic_cast<LumberjackPlayer*>(human_)->cuts_left()){
+	if(dynamic_cast<LumberjackPlayer*>(human_)->cuts_left())
+	{
 		if (input == 'r')
 		{
 			char facing = dynamic_cast<LumberjackPlayer*>(human_)->facing();
@@ -174,13 +253,14 @@ void Game::jungle_update()
 			}
 		}
 	}
-
+		
+	bool moved = false;
 	
 	if (human_->move(input))
 	{
 		Coordinate coord = human_->get_coord();
 		auto board_ = maze_->get_board();
-		if (board_[coord.first][coord.second] != '#')
+		if (board_[coord.first][coord.second] != maze_->get_tree_symb())
 		{
 			moved = true;
 			maze_->set_player_coord(human_->get_coord());
@@ -194,7 +274,7 @@ void Game::jungle_update()
 	maze_->update(moved);
 }
 
-char Game::read_input()
+char Game::read_input() const
 {
 	char press = ' ';
 	if (_kbhit()) 
@@ -202,6 +282,21 @@ char Game::read_input()
 		press = _getch();
 	}
 	return press;
+}
+
+void Game::controls() const
+{
+	system("cls");
+	std::cout << "\n\n\n";
+	std::cout << "\t\t\tW - move up\n\t\t\tA - move left\n\t\t\tS - move down\n\t\t\tD - move right\n\t\t\t";
+	std::cout << "\n\t\t\tFor the mode <Welcome to the Jungle> \n\t\t\tR - cut down a tree\n\n";
+	std::cout << "\t\t\tPress q to go back to mode selection\n" << std::endl;
+	char input = ' ';
+	while (input != 'q')
+	{
+		input = read_input();
+	}
+	return;
 }
 
 void Game::generate_player()
@@ -212,7 +307,7 @@ void Game::generate_player()
 
 	bool is_set = true;
 
-	if (board_[coord.first][coord.second] == '#')
+	if (board_[coord.first][coord.second] == maze_->get_tree_symb())
 	{
 		is_set = false;
 		std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, 1}, {-1, -1}, {1, -1}, {1, 1} };
@@ -222,7 +317,7 @@ void Game::generate_player()
 			int new_row = coord.first + directions[i].first;
 			int new_column = coord.second + directions[i].second;
 
-			if (board_[new_row][new_column] != '#')
+			if (board_[new_row][new_column] != maze_->get_tree_symb())
 			{
 				human_->set_coord({ new_row, new_column });
 			}
@@ -244,30 +339,3 @@ bool Game::player_on_exit() const
 	return false;
 }
 
-void Game::prologue()
-{
-	//TODO some sort of start screen
-	std::cout << "Choose game mode\n1. Treeocalypse\n2.Welcome to the jungle\n";
-	int input;
-	std::cin >> input;
-	if (input == 1)
-	{
-		mode_ = GameMode::TREEOCALYPSE;
-	}
-	else if (input == 2)
-	{
-		mode_ = GameMode::JUNGLE;
-	}
-}
-
-void Game::epilogue_win()
-{
-	system("cls");
-	std::cout << "You won" << std::endl;
-}
-
-void Game::epilogue_lose()
-{
-	system("cls");
-	std::cout << "Game Over" << std::endl;
-}

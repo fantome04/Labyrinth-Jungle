@@ -8,7 +8,7 @@ HumanPlayer::HumanPlayer(const Coordinate& coord)
 {
 }
 
-bool HumanPlayer::move(char dir) //TODO change to Direction class
+bool HumanPlayer::move(char dir)
 {
 	if (dir == 'w')
 	{
@@ -32,15 +32,5 @@ bool HumanPlayer::move(char dir) //TODO change to Direction class
 	}
 
 	return true;
-}
-
-char HumanPlayer::facing() const
-{
-	return 0;
-}
-
-bool HumanPlayer::cut()
-{
-	return false;
 }
 
