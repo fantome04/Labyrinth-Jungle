@@ -165,13 +165,13 @@ void Game::game_loop()
 	while (!game_over_)
 	{
 		maze_->print();
-		std::cout << "\n\n\t\t\tCuts left: " << dynamic_cast<LumberjackPlayer*>(human_)->cuts_left();
 		if(mode_ == GameMode::TREEOCALYPSE)
 		{
 			treeocalypse_update();
 		}
 		else
 		{
+			std::cout << "\n\n\t\t\tCuts left: " << dynamic_cast<LumberjackPlayer*>(human_)->cuts_left();
 			jungle_update();
 		}
 
