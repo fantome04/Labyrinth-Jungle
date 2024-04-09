@@ -112,34 +112,6 @@ void Game::game_loop()
 
 void Game::treeocalypse_update()
 {
-	/*Coordinate before = human_->get_coord();
-	bool moved = false;
-	bool on_tree = false;
-	if (human_->move(read_input()))
-	{
-		Coordinate coord = human_->get_coord();
-		auto board_ = maze_->get_board();
-		std::vector<Tree> tree = maze_->get_trees();
-		for (auto x : tree)
-		{
-			if (x.get_coordinate() == coord && x.is_grown())
-			{
-				on_tree = true;
-				break;
-			}
-		}
-		if (!on_tree)
-		{
-			moved = true;
-			maze_->set_player_coord(human_->get_coord());
-		}
-
-	}
-	if (!moved)
-	{
-		human_->set_coord(before);
-	}
-	maze_->update(moved);*/
 	Coordinate before = human_->get_coord();
 
 	bool moved = false;
@@ -199,33 +171,7 @@ void Game::jungle_update()
 	}
 		
 	bool moved = false;
-	/*bool on_tree = false;
-	if (human_->move(input))
-	{
-		Coordinate coord = human_->get_coord();
-		auto board_ = maze_->get_board();
-		std::vector<Tree> tree = maze_->get_trees();
-		for (auto x : tree)
-		{
-			if (x.get_coordinate() == coord && x.is_grown())
-			{
-				on_tree = true;
-				break;
-			}
-		}
-		if (!on_tree)
-		{
-			moved = true;
-			maze_->set_player_coord(human_->get_coord());
-		}
-
-	}
-	if (!moved)
-	{
-		human_->set_coord(before);
-	}
-	maze_->set_player_symbol(human_->get_symbol());
-	maze_->update(moved);*/
+	
 	if (human_->move(input))
 	{
 		Coordinate coord = human_->get_coord();
@@ -254,37 +200,37 @@ char Game::read_input() const
 	return press;
 }
 
-bool Game::collision_check(char input) const
-{
-	Coordinate before = human_->get_coord();
-	bool moved = false;
-	bool on_tree = false;
-	if (human_->move(input))
-	{
-		Coordinate coord = human_->get_coord();
-		auto board_ = maze_->get_board();
-		std::vector<Tree> tree = maze_->get_trees();
-		for (auto x : tree)
-		{
-			if (x.get_coordinate() == coord && x.is_grown())
-			{
-				on_tree = true;
-				break;
-			}
-		}
-		if (!on_tree)
-		{
-			moved = true;
-			maze_->set_player_coord(human_->get_coord());
-		}
-
-	}
-	if (!moved)
-	{
-		human_->set_coord(before);
-	}
-	return moved;
-}
+//bool Game::collision_check(char input) const
+//{
+//	Coordinate before = human_->get_coord();
+//	bool moved = false;
+//	bool on_tree = false;
+//	if (human_->move(input))
+//	{
+//		Coordinate coord = human_->get_coord();
+//		auto board_ = maze_->get_board();
+//		std::vector<Tree> tree = maze_->get_trees();
+//		for (auto x : tree)
+//		{
+//			if (x.get_coordinate() == coord && x.is_grown())
+//			{
+//				on_tree = true;
+//				break;
+//			}
+//		}
+//		if (!on_tree)
+//		{
+//			moved = true;
+//			maze_->set_player_coord(human_->get_coord());
+//		}
+//
+//	}
+//	if (!moved)
+//	{
+//		human_->set_coord(before);
+//	}
+//	return moved;
+//}
 
 void Game::generate_player()
 {

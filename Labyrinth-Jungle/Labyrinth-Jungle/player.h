@@ -9,7 +9,7 @@ public:
 
 	Player(const Coordinate& coord);
 
-	virtual bool move(char dir) = 0; //TODO change to Direction class
+	virtual bool move(char dir) = 0;
 	virtual char get_symbol() const;
 	virtual Coordinate get_coord() const;
 	virtual void set_coord(Coordinate coord);

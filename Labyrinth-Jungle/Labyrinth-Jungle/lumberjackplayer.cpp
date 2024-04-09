@@ -81,13 +81,8 @@ void LumberjackPlayer::cut()
 {
 	--cuts_left_;
 }
-//
-//void LumberjackPlayer::stop_cutting()
-//{
-//	cutting_ = false;
-//}
 
-bool LumberjackPlayer::cuts_left()
+bool LumberjackPlayer::cuts_left() const
 {
 	return cuts_left_;
 }

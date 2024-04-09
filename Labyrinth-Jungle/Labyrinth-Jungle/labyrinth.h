@@ -10,7 +10,6 @@
 #include "coordinate.h"
 #include "humanplayer.h"
 #include "tree.h"
-//#include "game.h"
 
 class Labyrinth
 {

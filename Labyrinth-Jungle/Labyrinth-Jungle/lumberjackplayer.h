@@ -9,19 +9,16 @@ public:
 	LumberjackPlayer(const Coordinate& coord);
 
 	virtual bool move(char input) override;
-	//virtual char get_symbol() const override;
 
 	char facing() const;
 
 
 	void cut();
-	//void stop_cutting();
-	bool cuts_left();
+	bool cuts_left() const;
 	
 private:
 
 	char facing_;
-	//bool cutting_;
 	int cuts_left_;
 
 };

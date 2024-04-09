@@ -1,4 +1,6 @@
-#include "labyrinth.h"
+﻿#include "labyrinth.h"
+
+#include <Windows.h>
 
 Labyrinth::Labyrinth()
 	:board_(board_size_, std::vector<char>(board_size_, TREE))
@@ -18,7 +20,24 @@ void Labyrinth::print()
 	{
 		for (const auto& y : x)
 		{
+			if (y == '#' || y == '■')
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
+			}
+			else if (y == '*')
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
+			}
+			else if (y == '.')
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+			}
+			else
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);;
+			}
 			std::cout << std::setw(2) << y;
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		}
 		std::cout << std::endl;
 	}
@@ -30,6 +49,7 @@ void Labyrinth::generate_labyrinth()
 	dfs(start);
 
 	generate_exits();
+	std::cout << "generate" << std::endl;
 }
 
 bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit) //bfs
@@ -171,15 +191,15 @@ void Labyrinth::update_board()
 		}
 		else
 		{
-			board_[x.get_coordinate().first][x.get_coordinate().second] = x.get_seed_timer() + '0';
-			//board_[x.get_coordinate().first][x.get_coordinate().second] = '*';
+			//board_[x.get_coordinate().first][x.get_coordinate().second] = x.get_seed_timer() + '0';
+			board_[x.get_coordinate().first][x.get_coordinate().second] = '*';
 		}
 	}
 	for (int i = 0; i < number_of_exits_; ++i)
 	{
 		board_[exits_[i].first][exits_[i].second] = PATH;
 	}
-	board_[player_coord_.first][player_coord_.second] = player_symb_; //TODO make actual player symb
+	board_[player_coord_.first][player_coord_.second] = player_symb_; 
 }
 
 bool Labyrinth::path_open() const
@@ -197,14 +217,6 @@ bool Labyrinth::valid_tree(const Tree& tree, const std::vector<Coordinate>& path
 			std::vector<Coordinate> tmp;
 			auto temp = get_path(tree.get_coordinate(), player_coord_, tmp);
 			return tmp.size() < tree.get_seed_timer();
-			/*if (tmp.size() < tree.get_seed_timer())
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}*/
 		}
 	}
 
