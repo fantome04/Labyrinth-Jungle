@@ -57,7 +57,7 @@ void LabyrinthTreeocalypse::plant_trees()
 		for (int j = 1; j < board_size_ - 1; ++j)
 		{
 			Coordinate temp{ i,j };
-			if (!is_tree(temp) || temp != player_coord_)
+			if (!is_tree(temp) && temp != player_coord_)
 			{
 				all_free_spaces.push_back(temp);
 			}
@@ -88,32 +88,13 @@ void LabyrinthTreeocalypse::plant_trees()
 			all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), temp), all_free_spaces.end());
 		}
 	}
-	else if(all_free_spaces.size() > 3)
+	else if (free_no_path.size() == 3)
 	{
-		std::vector<Tree> temp;
-		for (int i = 0; i < 3; ++i)
-		{
-			Tree tree{ all_free_spaces[rand() % all_free_spaces.size()], false };
-			if(valid_tree(tree, path_to_exits))
-			{
-				temp.push_back(tree);
-			}
-			else
-			{
-				temp.clear();
-				break;
-			}
-		}
-		for (auto x : temp)
-		{
-			Coordinate tmp = x.get_coordinate();
-			all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), tmp), all_free_spaces.end());
-		}
-		/*for (auto x : free_no_path)
+		for (auto x : free_no_path)
 		{
 			Tree tree{ x, false };
 			trees_.push_back(tree);
-		}*/
+		}
 	}
 }
 

@@ -36,7 +36,7 @@ private:
 	void jungle_update();
 	char read_input() const;
 
-	bool collision_check(char input) const;
+	void controls() const;
 
 	void generate_player();
 	bool player_on_exit() const;

@@ -10,7 +10,6 @@
 #include "coordinate.h"
 #include "humanplayer.h"
 #include "tree.h"
-//#include "game.h"
 
 class Labyrinth
 {
@@ -31,7 +30,7 @@ public:
 	// Return a vector of coordinates of the path from 'from' to 'to
 	// The vector is not guaranteed to be in the actual order of the path, it just stores the coordinates
 	// the function is written in a way that it can be called multiple times and 'path to exit' can hold coordinates for multiple paths
-	virtual bool get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit);
+	virtual bool get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit) const;
 
 	virtual std::vector<std::vector<char>> get_board() const; //returns a copy of the board
 	virtual std::vector<Tree> get_trees() const; //returns a copy of the trees vector
@@ -45,6 +44,9 @@ public:
 	virtual bool is_tree(const Coordinate& coord); //returns if there is a tree on given coordinate
 	virtual bool is_on_path(const Coordinate& coord, const std::vector<Coordinate>& path); //returns if the coordinate is a part of given path(s)
 
+	virtual char get_tree_symb() const;
+	virtual char get_path_symb() const;
+	virtual char get_seed_symb() const;
 	
 
 protected:
@@ -56,8 +58,9 @@ protected:
 	void compare_exits(); //compares exit locations with each other
 	void starting_trees(); //creates vector of trees at the start of the game
 
-	const char TREE = '#';
-	const char PATH = '.';
+	const char TREE = 254;
+	const char PATH = ' ';
+	const char SEED = 248;
 	const int board_size_ = 20;
 
 	std::vector<std::vector<char>> board_;

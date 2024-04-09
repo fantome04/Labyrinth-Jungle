@@ -3,7 +3,7 @@
 
 Player::Player(const Coordinate& coord)
 	:my_coord_(coord)
-	,my_symbol_('O')
+	,my_symbol_('X')
 {
 }
 
