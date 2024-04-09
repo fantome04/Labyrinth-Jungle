@@ -16,6 +16,7 @@ Labyrinth::Labyrinth()
 
 void Labyrinth::print()
 {
+	std::cout << "\n\n\n";
 	for (const auto& x : board_)
 	{
 		std::cout << "\t\t\t";
