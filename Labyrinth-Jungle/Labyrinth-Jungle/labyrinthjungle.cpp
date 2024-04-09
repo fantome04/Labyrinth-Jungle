@@ -4,8 +4,6 @@ LabyrinthJungle::LabyrinthJungle()
 	:bfs_called_(false)
 {
 	generate_labyrinth();
-	plant_trees();
-	starting_trees();
 }
 
 void LabyrinthJungle::update(bool moved)
@@ -113,7 +111,7 @@ void LabyrinthJungle::plant_trees()
 		all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), temp), all_free_spaces.end());
 		path_to_exits[i].erase(std::remove(path_to_exits[i].begin(), path_to_exits[i].end(), temp), path_to_exits[i].end());
 	}
-
+	starting_trees();
 }
 
 bool LabyrinthJungle::cut_tree(const Coordinate& coord, char dir)
