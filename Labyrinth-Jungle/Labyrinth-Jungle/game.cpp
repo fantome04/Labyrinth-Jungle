@@ -11,6 +11,52 @@ Game::Game()
 	,win_(false)
 	,mode_(GameMode::TREEOCALYPSE)
 {
+	start();
+
+}
+
+
+
+void Game::play()
+{
+	while (true)
+	{
+		game_loop();
+		if (win_)
+		{
+			epilogue_win();
+		}
+		else
+		{
+			epilogue_lose();
+		}
+		Sleep(3000);
+		system("cls");
+		std::cout << "press E to exit" << std::endl;
+		std::cout << "press R to restart" << std::endl;
+		while (true)
+		{
+			char input = read_input();
+			if (input == 'r')
+			{
+				clear();
+				game_over_ = false;
+				win_ = false;
+				start();
+				break;
+			}
+			else if (input == 'e')
+			{
+				system("cls");
+				return;
+			}
+		}
+	}
+
+}
+
+void Game::start()
+{
 	prologue();
 	if (mode_ == GameMode::TREEOCALYPSE)
 	{
@@ -19,7 +65,7 @@ Game::Game()
 	}
 	else
 	{
-		human_ = new LumberjackPlayer({10,10});
+		human_ = new LumberjackPlayer({ 10,10 });
 		maze_ = new LabyrinthJungle();
 	}
 	generate_player();
@@ -27,23 +73,16 @@ Game::Game()
 	system("cls");
 }
 
-void Game::play()
-{
-	game_loop();
-	if (win_)
-	{
-		epilogue_win();
-	}
-	else
-	{
-		epilogue_lose();
-	}
-}
-
-Game::~Game()
+void Game::clear()
 {
 	delete maze_;
 	delete human_;
+}
+
+
+Game::~Game()
+{
+	clear();
 }
 
 

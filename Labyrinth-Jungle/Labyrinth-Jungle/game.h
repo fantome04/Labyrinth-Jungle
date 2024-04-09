@@ -22,7 +22,8 @@ public:
 	void play();
 
 	~Game();
-
+	void clear();
+	void start();
 private:
 
 	void prologue(); //start menu
