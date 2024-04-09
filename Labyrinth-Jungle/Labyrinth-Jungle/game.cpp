@@ -70,13 +70,16 @@ void Game::start()
 	{
 		human_ = new HumanPlayer({ 10, 10 });
 		maze_ = new LabyrinthTreeocalypse();
+		generate_player();
 	}
 	else
 	{
 		human_ = new LumberjackPlayer({ 10,10 });
 		maze_ = new LabyrinthJungle();
+		generate_player();
+		maze_->plant_trees();
+		//maze_->starting_trees();
 	}
-	generate_player();
 	maze_->set_player_coord(human_->get_coord());
 	system("cls");
 }
