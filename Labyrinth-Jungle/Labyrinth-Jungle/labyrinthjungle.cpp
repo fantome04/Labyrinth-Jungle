@@ -83,6 +83,7 @@ void LabyrinthJungle::plant_trees()
 		Tree tree{ free_no_path[rand() % free_no_path.size()], true };
 		trees_.push_back(tree);
 		Coordinate temp = tree.get_coordinate();
+		board_[temp.first][temp.second] = TREE;
 		all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), temp), all_free_spaces.end());
 		free_no_path.erase(std::remove(free_no_path.begin(), free_no_path.end(), temp), free_no_path.end());
 	}
@@ -104,6 +105,7 @@ void LabyrinthJungle::plant_trees()
 					std::cout << "found space" << std::endl;
 					Tree tr({ new_row, new_column }, true);
 					trees_.push_back(tr);
+					board_[tr.get_coordinate().first][tr.get_coordinate().second] = TREE;
 					all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), tr.get_coordinate()), all_free_spaces.end());
 					path_to_exits[i].erase(std::remove(path_to_exits[i].begin(), path_to_exits[i].end(), tr.get_coordinate()), path_to_exits[i].end());
 					std::cout << "planted space" << std::endl;
@@ -115,6 +117,7 @@ void LabyrinthJungle::plant_trees()
 		Tree tree{ path_to_exits[i][rand() % path_to_exits[i].size()], true };
 		trees_.push_back(tree);
 		Coordinate temp = tree.get_coordinate();
+		board_[temp.first][temp.second] = TREE;
 		all_free_spaces.erase(std::remove(all_free_spaces.begin(), all_free_spaces.end(), temp), all_free_spaces.end());
 		path_to_exits[i].erase(std::remove(path_to_exits[i].begin(), path_to_exits[i].end(), temp), path_to_exits[i].end());
 		std::cout << "planted space" << i <<  std::endl;
