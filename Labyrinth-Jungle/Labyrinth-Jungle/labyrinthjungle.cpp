@@ -22,6 +22,17 @@ void LabyrinthJungle::update(bool moved)
 	}
 }
 
+void LabyrinthJungle::update_trees()
+{
+	for (auto& x : trees_)
+	{
+		if (!x.is_grown())
+		{
+			x.update_tree();
+		}
+	}
+}
+
 void LabyrinthJungle::plant_trees()
 {
 	std::cout << "plant" << std::endl;
@@ -88,7 +99,7 @@ void LabyrinthJungle::plant_trees()
 
 			if (new_row > 0 && new_column > 0 && new_row < board_size_ - 1 && new_column < board_size_ - 1)
 			{
-				if (board_[new_row][new_column] != '#')
+				if (board_[new_row][new_column] != TREE)
 				{
 					std::cout << "found space" << std::endl;
 					Tree tr({ new_row, new_column }, true);
@@ -135,18 +146,6 @@ bool LabyrinthJungle::cut_tree(const Coordinate& coord, char dir)
 	}
 	return false;
 }
-
-void LabyrinthJungle::update_trees()
-{
-	for (auto& x : trees_)
-	{
-		if (!x.is_grown())
-		{
-			x.update_tree();
-		}
-	}
-}
-
 
 bool LabyrinthJungle::bfs_called() const
 {

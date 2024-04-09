@@ -81,6 +81,38 @@ void Game::clear()
 	delete human_;
 }
 
+void Game::prologue()
+{
+	system("cls");
+	std::cout << "Choose game mode\n1. Treeocalypse\n2. Welcome to the jungle\n";
+	while (true)
+	{
+		char input = read_input();
+		if (input == '1')
+		{
+			mode_ = GameMode::TREEOCALYPSE;
+			break;
+		}
+		else if (input == '2')
+		{
+			mode_ = GameMode::JUNGLE;
+			break;
+		}
+	}
+}
+
+void Game::epilogue_win()
+{
+	system("cls");
+	std::cout << "You won" << std::endl;
+}
+
+void Game::epilogue_lose()
+{
+	system("cls");
+	std::cout << "Game Over" << std::endl;
+	std::cout << "The Path to the exit is sealed off forever" << std::endl;
+}
 
 void Game::game_loop()
 {
@@ -119,7 +151,7 @@ void Game::treeocalypse_update()
 	{
 		Coordinate coord = human_->get_coord();
 		auto board_ = maze_->get_board();
-		if (board_[coord.first][coord.second] != '#')
+		if (board_[coord.first][coord.second] != maze_->get_tree_symb())
 		{
 			moved = true;
 			maze_->set_player_coord(human_->get_coord());
@@ -176,7 +208,7 @@ void Game::jungle_update()
 	{
 		Coordinate coord = human_->get_coord();
 		auto board_ = maze_->get_board();
-		if (board_[coord.first][coord.second] != '#')
+		if (board_[coord.first][coord.second] != maze_->get_tree_symb())
 		{
 			moved = true;
 			maze_->set_player_coord(human_->get_coord());
@@ -240,7 +272,7 @@ void Game::generate_player()
 
 	bool is_set = true;
 
-	if (board_[coord.first][coord.second] == '#')
+	if (board_[coord.first][coord.second] == maze_->get_tree_symb())
 	{
 		is_set = false;
 		std::vector<Coordinate> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, 1}, {-1, -1}, {1, -1}, {1, 1} };
@@ -250,7 +282,7 @@ void Game::generate_player()
 			int new_row = coord.first + directions[i].first;
 			int new_column = coord.second + directions[i].second;
 
-			if (board_[new_row][new_column] != '#')
+			if (board_[new_row][new_column] != maze_->get_tree_symb())
 			{
 				human_->set_coord({ new_row, new_column });
 			}
@@ -272,35 +304,3 @@ bool Game::player_on_exit() const
 	return false;
 }
 
-void Game::prologue()
-{
-	system("cls");
-	std::cout << "Choose game mode\n1. Treeocalypse\n2. Welcome to the jungle\n";
-	while (true)
-	{
-		char input = read_input();
-		if (input == '1')
-		{
-			mode_ = GameMode::TREEOCALYPSE;
-			break;
-		}
-		else if (input == '2')
-		{
-			mode_ = GameMode::JUNGLE;
-			break;
-		}
-	}
-}
-
-void Game::epilogue_win()
-{
-	system("cls");
-	std::cout << "You won" << std::endl;
-}
-
-void Game::epilogue_lose()
-{
-	system("cls");
-	std::cout << "Game Over" << std::endl;
-	std::cout << "The Path to the exit is sealed off forever" << std::endl;
-}

@@ -20,15 +20,15 @@ void Labyrinth::print()
 	{
 		for (const auto& y : x)
 		{
-			if (y == '#' || y == '■')
+			if (y == TREE || y == '■')
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
 			}
-			else if (y == '*')
+			else if (y == SEED)
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
 			}
-			else if (y == '.')
+			else if (y == PATH)
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 			}
@@ -52,7 +52,7 @@ void Labyrinth::generate_labyrinth()
 	std::cout << "generate" << std::endl;
 }
 
-bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit) //bfs
+bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vector<Coordinate>& path_to_exit) const //bfs
 {
 	std::vector<std::vector<char>> board_copy(board_size_, std::vector<char>(board_size_, PATH));
 	for (const auto& x : trees_)
@@ -148,7 +148,6 @@ bool Labyrinth::get_path(const Coordinate& from, const Coordinate& to, std::vect
 	return false;
 }
 
-
 std::vector<std::vector<char>> Labyrinth::get_board() const
 {
 	return board_;
@@ -192,7 +191,7 @@ void Labyrinth::update_board()
 		else
 		{
 			//board_[x.get_coordinate().first][x.get_coordinate().second] = x.get_seed_timer() + '0';
-			board_[x.get_coordinate().first][x.get_coordinate().second] = '*';
+			board_[x.get_coordinate().first][x.get_coordinate().second] = SEED;
 		}
 	}
 	for (int i = 0; i < number_of_exits_; ++i)
@@ -379,7 +378,7 @@ void Labyrinth::starting_trees()
 	{
 		for (int j = 0; j < board_size_; ++j)
 		{
-			if (board_[i][j] == '#')
+			if (board_[i][j] == TREE)
 			{
 				trees_.push_back(Tree({ i, j }, true));
 			}
@@ -387,3 +386,17 @@ void Labyrinth::starting_trees()
 	}
 }
 
+char Labyrinth::get_tree_symb() const
+{
+	return TREE;
+}
+
+char Labyrinth::get_path_symb() const
+{
+	return PATH;
+}
+
+char Labyrinth::get_seed_symb() const
+{
+	return SEED;
+}
