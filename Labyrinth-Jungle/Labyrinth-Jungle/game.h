@@ -6,11 +6,12 @@
 #include "labyrinthtreeocalypse.h"
 #include "labyrinthjungle.h"
 #include "humanplayer.h"
+#include "player.h"
 
 enum class GameMode
 {
 	TREEOCALYPSE,
-	WTTJ
+	JUNGLE
 };
 
 class Game
@@ -21,25 +22,30 @@ public:
 	void play();
 
 	~Game();
-
+	
 private:
+
+	void start();
+	void clear();
 
 	void prologue(); //start menu
 	void epilogue_win(); //game over screen
 	void epilogue_lose(); //game over screen
-	void treeocalypse_game_loop();
-	void wttj_game_loop();
+	void game_loop();
 	void treeocalypse_update();
-	char read_input();
+	void jungle_update();
+	char read_input() const;
+
+	void controls() const;
 
 	void generate_player();
 	bool player_on_exit() const;
 
 	bool game_over_;
-	bool win;
+	bool win_;
 	GameMode mode_;
 	Labyrinth* maze_;
-	HumanPlayer human_;
+	Player* human_;
 	
 
 };

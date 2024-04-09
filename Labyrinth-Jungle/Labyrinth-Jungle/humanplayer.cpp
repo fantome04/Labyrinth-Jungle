@@ -8,7 +8,7 @@ HumanPlayer::HumanPlayer(const Coordinate& coord)
 {
 }
 
-bool HumanPlayer::move(char dir) //TODO change to Direction class
+bool HumanPlayer::move(char dir)
 {
 	if (dir == 'w')
 	{
@@ -34,21 +34,3 @@ bool HumanPlayer::move(char dir) //TODO change to Direction class
 	return true;
 }
 
-char HumanPlayer::get_symbol() const
-{
-	return my_symbol_;
-}
-
-Coordinate HumanPlayer::get_coord() const
-{
-	return my_coord_;
-}
-
-
-//TODO
-//set coord
-
-void HumanPlayer::set_coord(Coordinate coord)
-{
-	my_coord_ = coord;
-}
