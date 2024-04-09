@@ -34,13 +34,3 @@ bool HumanPlayer::move(char dir) //TODO change to Direction class
 	return true;
 }
 
-char HumanPlayer::facing() const
-{
-	return 0;
-}
-
-bool HumanPlayer::cut()
-{
-	return false;
-}
-

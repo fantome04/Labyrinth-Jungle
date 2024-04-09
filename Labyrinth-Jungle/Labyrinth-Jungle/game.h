@@ -25,13 +25,18 @@ public:
 
 private:
 
+	void start();
+	void clear();
+
 	void prologue(); //start menu
 	void epilogue_win(); //game over screen
 	void epilogue_lose(); //game over screen
 	void game_loop();
 	void treeocalypse_update();
 	void jungle_update();
-	char read_input();
+	char read_input() const;
+
+	bool collision_check(char input) const;
 
 	void generate_player();
 	bool player_on_exit() const;

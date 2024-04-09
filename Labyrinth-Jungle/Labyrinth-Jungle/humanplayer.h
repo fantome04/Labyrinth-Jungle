@@ -9,10 +9,6 @@ public:
 	HumanPlayer(const Coordinate& coord);
 	virtual bool move(char dir) override;
 	
-
-	char facing() const;
-	bool cut();
-
 private:
 
 };
